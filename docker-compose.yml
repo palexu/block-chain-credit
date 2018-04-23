@@ -1,0 +1,25 @@
+version: "3"
+services:
+  front:
+    build:
+      context: ./credit-front
+      dockerfile: Dockerfile
+    image: palexu/credit-front
+    ports:
+      - "80:80"
+
+  back:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: palexu/credit-back
+    ports:
+      - "8080:80"
+
+#  mongodb:
+#    image: mongo:latest
+#    volumes:
+#        - "./data/db:/data/db"
+#    ports:
+#        - "27017:27017"
+
