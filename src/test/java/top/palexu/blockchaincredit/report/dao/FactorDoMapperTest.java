@@ -1,5 +1,6 @@
 package top.palexu.blockchaincredit.report.dao;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.palexu.blockchaincredit.TestBase;
@@ -9,33 +10,27 @@ public class FactorDoMapperTest extends TestBase {
     @Autowired
     FactorDoMapper factorDoMapper;
 
-    @Test
-    public void deleteByPrimaryKey() throws Exception {
+    public void deleteByPrimaryKey() {
+        Assert.assertTrue(factorDoMapper.deleteByPrimaryKey(1L) > 0);
     }
 
-    @Test
-    public void insert() throws Exception {
+    public void insert() {
         FactorDo factorDo = new FactorDo();
-        factorDo.setId(0L);
         factorDo.setName("h");
+        factorDo.setScriptId(0L);
         factorDo.setDesc("test");
         factorDoMapper.insert(factorDo);
     }
 
-    @Test
-    public void insertSelective() throws Exception {
+    public void selectByScriptId() {
+        Assert.assertNotNull(factorDoMapper.selectByScriptId(0L));
     }
 
     @Test
-    public void selectByPrimaryKey() throws Exception {
-    }
-
-    @Test
-    public void updateByPrimaryKeySelective() throws Exception {
-    }
-
-    @Test
-    public void updateByPrimaryKey() throws Exception {
+    public void main() {
+        this.insert();
+        this.selectByScriptId();
+        this.deleteByPrimaryKey();
     }
 
 }

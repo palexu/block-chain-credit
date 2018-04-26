@@ -36,6 +36,11 @@ public class ReportContext {
     Object rawData;
 
     /**
+     * 计算中需要用到的工具
+     */
+    CalculateHelper calculateHelper;
+
+    /**
      * 因子列表
      */
     Map<String, Factor> factorMap;
@@ -71,3 +76,4 @@ public class ReportContext {
         }
     }
 }
+
