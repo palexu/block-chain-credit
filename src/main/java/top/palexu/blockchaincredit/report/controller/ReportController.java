@@ -1,5 +1,6 @@
 package top.palexu.blockchaincredit.report.controller;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,6 @@ public class ReportController {
     public String creditCardReport(@PathVariable("provider") String provider, @PathVariable("subject") String subject,
                                    @PathVariable("bizType") String bizType) {
         ReportContext context = new ReportContext(subject, provider, bizType);
-        return reportService.creditCardReport(context);
+        return JSON.toJSONString(reportService.creditCardReport(context));
     }
 }

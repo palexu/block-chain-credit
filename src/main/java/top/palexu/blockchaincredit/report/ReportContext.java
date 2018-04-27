@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import top.palexu.blockchaincredit.credit.common.BizTypeEnum;
 import top.palexu.blockchaincredit.report.engine.script.Factor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -43,7 +44,7 @@ public class ReportContext {
     /**
      * 因子列表
      */
-    Map<String, Factor> factorMap;
+    Map<String, Factor> factorMap = new HashMap<>();
 
     /**
      * 报告结果
@@ -67,8 +68,11 @@ public class ReportContext {
      * @return
      */
     public void addFactorResult(String name, Object value) {
-        if (factorMap.containsKey(name)) {
-            factorMap.get(name).setValue(value);
+        if (calculateHelper.factorDos.containsKey(name)) {
+            Factor factor = new Factor();
+            factor.setName(name);
+            factor.setValue(value);
+            factorMap.put(name, factor);
         } else {
             //不做处理
             logger.info("报告上下文,provider={},subject={},bizType={},该报告不存在因子{}", this.provider, this.subject,

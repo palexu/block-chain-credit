@@ -1,14 +1,16 @@
 package top.palexu.blockchaincredit.report.facade.impl;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.palexu.blockchaincredit.report.CalculateHelper;
 import top.palexu.blockchaincredit.report.ReportContext;
 import top.palexu.blockchaincredit.report.engine.ReportEngine;
+import top.palexu.blockchaincredit.report.engine.script.Factor;
 import top.palexu.blockchaincredit.report.facade.ReportService;
 import top.palexu.blockchaincredit.report.service.FactorService;
+
+import java.util.Map;
 
 /**
  * @author xjy
@@ -27,7 +29,7 @@ public class ReportServiceImpl implements ReportService {
      * @return
      */
     @Override
-    public String creditCardReport(ReportContext context) {
+    public Map<String, Factor> creditCardReport(ReportContext context) {
         assert Strings.isNotBlank(context.getProvider());
         assert Strings.isNotBlank(context.getSubject());
         assert Strings.isNotBlank(context.getBizType().value);
@@ -41,8 +43,8 @@ public class ReportServiceImpl implements ReportService {
         engine.calculate(context);
 
         //3.返回结果
-        if (null != context.getReportResult()) {
-            return JSON.toJSONString(context.getReportResult());
+        if (null != context.getFactorMap()) {
+            return context.getFactorMap();
         } else {
             return null;
         }

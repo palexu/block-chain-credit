@@ -9,10 +9,7 @@ import top.palexu.blockchaincredit.report.dao.TemplateDoMapper;
 import top.palexu.blockchaincredit.report.model.FactorDo;
 import top.palexu.blockchaincredit.report.model.ScriptDo;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class FactorService {
@@ -28,19 +25,22 @@ public class FactorService {
     @Autowired
     FactorTemplateRelationMapper relationMapper;
 
-    public List<FactorDo> findFactorByTemplateId(long templateId) {
+    public Map<String, FactorDo> findFactorByTemplateId(long templateId) {
         List<Long> factorIds = relationMapper.findFactorIdByTemplateId(templateId);
-        List<FactorDo> factors = new ArrayList<>();
+
+        Map<String, FactorDo> factors = new HashMap<>();
         for (Long id : factorIds) {
-            factors.add(factorDoMapper.selectByPrimaryKey(id));
+            FactorDo factorDo = factorDoMapper.selectByPrimaryKey(id);
+            factors.put(factorDo.getName(), factorDo);
         }
+
         return factors;
     }
 
     public List<ScriptDo> findScriptByTemplateId(long templateId) {
-        List<FactorDo> factors = this.findFactorByTemplateId(templateId);
+        Map<String, FactorDo> factors = this.findFactorByTemplateId(templateId);
         Set<Long> scriptIdSet = new HashSet<>();
-        for (FactorDo d : factors) {
+        for (FactorDo d : factors.values()) {
             scriptIdSet.add(d.getScriptId());
         }
         List<ScriptDo> scripts = new ArrayList<>();

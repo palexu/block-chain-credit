@@ -1,6 +1,9 @@
 package top.palexu.blockchaincredit.report.facade;
 
 import top.palexu.blockchaincredit.report.ReportContext;
+import top.palexu.blockchaincredit.report.engine.script.Factor;
+
+import java.util.Map;
 
 /**
  * @author xjy
@@ -13,5 +16,5 @@ public interface ReportService {
      * @param context
      * @return
      */
-    String creditCardReport(ReportContext context);
+    Map<String,Factor> creditCardReport(ReportContext context);
 }

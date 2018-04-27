@@ -1,6 +1,5 @@
 package top.palexu.blockchaincredit.report.service;
 
-import org.apache.logging.log4j.util.Strings;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,7 +38,7 @@ public class ReportServiceTest extends TestBase {
         context.setSubject(DataMockUtil.SUBJECT);
         context.setBizType(DataMockUtil.BIZ_TYPE);
 
-        Assert.assertTrue(Strings.isNotBlank(reportService.creditCardReport(context)));
+        Assert.assertTrue(null != reportService.creditCardReport(context));
     }
 
 }
