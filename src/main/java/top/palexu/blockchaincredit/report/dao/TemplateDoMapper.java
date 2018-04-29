@@ -50,4 +50,8 @@ public interface TemplateDoMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(TemplateDo record);
+
+
+
+    TemplateDo selectByBizType(String bizType);
 }

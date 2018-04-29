@@ -39,13 +39,14 @@ public class SearchReportServiceImpl implements SearchReportService {
         //用subject找到所有相关数据
         List<CreditDataRecord> recordList = creditDataStoreService.selectAllRecordBySubject(subject);
 
-        //按照bizType不同，选择不同报告生成器进行计算  todo 需要bizType-data-service的关联关系
+        //按照bizType不同，选择不同报告生成器进行计算
         for (CreditDataRecord record : recordList) {
             String bizType = record.getBizType();
             ReportContext context = new ReportContext(subject, record.getProvider(), bizType);
             Report report = new Report();
 
             Map<String, Factor> factorMap = null;
+            //todo 改为在reportservice中处理name 和 desc
             if (BizTypeEnum.creditCard.getValue().equals(bizType)) {
                 factorMap = reportService.creditCardReport(context);
                 report.setReportName("信用卡报告");

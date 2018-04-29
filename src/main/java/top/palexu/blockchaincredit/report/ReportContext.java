@@ -68,6 +68,7 @@ public class ReportContext {
      * @return
      */
     public void addFactorResult(String name, Object value) {
+        //todo 因子可以由机构自由添加，之后不应判断是否存在因子
         if (calculateHelper.factorDos.containsKey(name)) {
             Factor factor = new Factor();
             factor.setName(name);

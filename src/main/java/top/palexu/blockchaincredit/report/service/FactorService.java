@@ -8,6 +8,7 @@ import top.palexu.blockchaincredit.report.dao.ScriptDoMapper;
 import top.palexu.blockchaincredit.report.dao.TemplateDoMapper;
 import top.palexu.blockchaincredit.report.model.FactorDo;
 import top.palexu.blockchaincredit.report.model.ScriptDo;
+import top.palexu.blockchaincredit.report.model.TemplateDo;
 
 import java.util.*;
 
@@ -24,6 +25,11 @@ public class FactorService {
 
     @Autowired
     FactorTemplateRelationMapper relationMapper;
+
+    public Long findTemplateIdByBiztype(String bizType) {
+        TemplateDo td = templateDoMapper.selectByBizType(bizType);
+        return td == null ? null : td.getId();
+    }
 
     public Map<String, FactorDo> findFactorByTemplateId(long templateId) {
         List<Long> factorIds = relationMapper.findFactorIdByTemplateId(templateId);
