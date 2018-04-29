@@ -76,7 +76,7 @@ public class ReportContext {
         } else {
             //不做处理
             logger.info("报告上下文,provider={},subject={},bizType={},该报告不存在因子{}", this.provider, this.subject,
-                        this.bizType.value, name);
+                        this.bizType.getValue(), name);
         }
     }
 }

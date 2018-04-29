@@ -16,6 +16,9 @@ public class CreditCardData {
 
     private NaturePerson naturePerson = new NaturePerson();
 
+    /**
+     * 信用卡逾期信息
+     */
     private List<CreditCardOverdueRecord> creditCardOverdueRecords = new ArrayList<>();
 
 }

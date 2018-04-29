@@ -15,18 +15,26 @@ public enum BizTypeEnum {
      */
     sharedBike("sharedBike");
 
-    public String value;
+    private String value;
 
     BizTypeEnum(String bizType) {
-        this.value = bizType;
+        this.setValue(bizType);
     }
 
     public static BizTypeEnum get(String bizType) {
         for (BizTypeEnum i : BizTypeEnum.values()) {
-            if (i.value.equals(bizType)) {
+            if (i.getValue().equals(bizType)) {
                 return i;
             }
         }
         return null;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

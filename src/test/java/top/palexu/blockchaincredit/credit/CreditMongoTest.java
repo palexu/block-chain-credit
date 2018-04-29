@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import top.palexu.blockchaincredit.TestBase;
 import top.palexu.blockchaincredit.credit.dao.CreditMongo;
 import top.palexu.blockchaincredit.credit.model.CreditData;
+import top.palexu.blockchaincredit.credit.util.DataMockUtil;
 
 
 public class CreditMongoTest extends TestBase {
@@ -21,7 +22,7 @@ public class CreditMongoTest extends TestBase {
         data.setProvider("test");
         data.setSubject("wang");
 
-        creditMongo.insert(data);
+        creditMongo.upsert(data);
     }
 
     public void select() throws Exception {
@@ -45,5 +46,15 @@ public class CreditMongoTest extends TestBase {
         this.deleteOne();
     }
 
+    @Test
+    public void selectRecordBySubject() throws Exception {
+        Assert.assertTrue(creditMongo.selectRecordBySubject("TEST01").size() > 0);
+    }
+
+    @Test
+    public void selectOne() {
+        Assert.assertTrue(null == creditMongo.selectOne(DataMockUtil.PROVIDER, DataMockUtil.SUBJECT,
+                                                        "NONE_EXIST_BIZTYPE_9fh783gfbksf124e1safw4t"));
+    }
 
 }

@@ -21,7 +21,7 @@ public class CreditCardDataPre implements IDataPre {
     public void handle(ReportContext context) {
 
         CreditData data = dataStoreService.selectCreditData(context.getProvider(), context.getSubject(),
-                                                            context.getBizType().value);
+                                                            context.getBizType().getValue());
 
 
         //1.读取征信数据

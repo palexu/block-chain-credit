@@ -2,6 +2,7 @@ package top.palexu.blockchaincredit.credit.dao;
 
 import com.alibaba.fastjson.JSON;
 import com.mongodb.*;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import top.palexu.blockchaincredit.credit.model.CreditData;
+import top.palexu.blockchaincredit.credit.model.CreditDataRecord;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,21 +90,25 @@ public class CreditMongo implements InitializingBean {
     }
 
     /**
-     * 插入数据
+     * 插入数据,如存在则替换
      *
      * @param data
      * @return
      */
-    public boolean insert(CreditData data) {
-        Document document = new Document();
-        document.put("provider", data.getProvider());
-        document.put("subject", data.getSubject());
-        document.put("bizType", data.getBizType());
-        document.put("data", data.getData());
-        document.put("print", data.getPrint());
+    public boolean upsert(CreditData data) {
+        CreditData old = this.selectOne(data.getProvider(), data.getSubject(), data.getBizType());
+        if (null == old) {
+            Document document = new Document();
+            document.put("provider", data.getProvider());
+            document.put("subject", data.getSubject());
+            document.put("bizType", data.getBizType());
+            document.put("data", data.getData());
+            document.put("print", data.getPrint());
 
-        mongoDatabase.getCollection(COLLECTION_NAME).insertOne(document);
-        return true;
+            mongoDatabase.getCollection(COLLECTION_NAME).insertOne(document);
+        } else {
+            this.update(data.getProvider(), data.getSubject(), data.getBizType(), data.getData(), data.getPrint());
+        } return true;
     }
 
     /**
@@ -127,7 +133,25 @@ public class CreditMongo implements InitializingBean {
     public CreditData selectOne(String provider, String subject, String bizType) {
         Document document = mongoDatabase.getCollection(COLLECTION_NAME).find(
                 and(eq("provider", provider), eq("subject", subject), eq("bizType", bizType))).first();
-        return JSON.parseObject(document.toJson(), CreditData.class);
+        return document == null ? null : JSON.parseObject(document.toJson(), CreditData.class);
+    }
+
+    /**
+     * 查询subject主体的所有相关信用数据
+     *
+     * @param subject
+     * @return
+     */
+    public List<CreditDataRecord> selectRecordBySubject(String subject) {
+        FindIterable<Document> documentFindIterable = mongoDatabase.getCollection(COLLECTION_NAME).find(
+                eq("subject", subject));
+
+        List<CreditDataRecord> creditDatas = new ArrayList<>();
+        for (Document doc : documentFindIterable) {
+            creditDatas.add(JSON.parseObject(doc.toJson(), CreditDataRecord.class));
+        }
+
+        return creditDatas;
     }
 
     /**
@@ -142,9 +166,9 @@ public class CreditMongo implements InitializingBean {
      */
     public boolean update(String provider, String subject, String bizType, String data, String print) {
         Document oldDocument = new Document();
-        oldDocument.put("provider",provider);
-        oldDocument.put("subject",subject);
-        oldDocument.put("bizType",bizType);
+        oldDocument.put("provider", provider);
+        oldDocument.put("subject", subject);
+        oldDocument.put("bizType", bizType);
 
         Document newDocument = new Document();
         newDocument.putAll(oldDocument);

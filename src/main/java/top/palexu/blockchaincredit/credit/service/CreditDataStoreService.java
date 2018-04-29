@@ -1,6 +1,9 @@
 package top.palexu.blockchaincredit.credit.service;
 
 import top.palexu.blockchaincredit.credit.model.CreditData;
+import top.palexu.blockchaincredit.credit.model.CreditDataRecord;
+
+import java.util.List;
 
 /**
  * 征信数据读写
@@ -37,6 +40,14 @@ public interface CreditDataStoreService {
      * @param bizType  业务场景
      */
     CreditData selectCreditData(String provider, String subject, String bizType);
+
+    /**
+     * 获取subject下所有数据
+     *
+     * @param subject
+     * @return
+     */
+    List<CreditDataRecord> selectAllRecordBySubject(String subject);
 
 
     /**

@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.palexu.blockchaincredit.credit.dao.CreditMongo;
 import top.palexu.blockchaincredit.credit.model.CreditData;
+import top.palexu.blockchaincredit.credit.model.CreditDataRecord;
 import top.palexu.blockchaincredit.credit.service.CreditDataStoreService;
 import top.palexu.blockchaincredit.credit.util.PrintUtil;
+
+import java.util.List;
 
 /**
  * todo 在这一层做缓存，
@@ -31,7 +34,7 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
 
         //落数据库
         if (saveToBlockSuccess) {
-            return creditMongo.insert(creditData);
+            return creditMongo.upsert(creditData);
         } else {
             return false;
         }
@@ -50,6 +53,11 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
         creditData.setSubject(subject);
         creditData.setBizType(bizType);
         return this.selectCreditData(creditData);
+    }
+
+    @Override
+    public List<CreditDataRecord> selectAllRecordBySubject(String subject) {
+        return creditMongo.selectRecordBySubject(subject);
     }
 
     @Override

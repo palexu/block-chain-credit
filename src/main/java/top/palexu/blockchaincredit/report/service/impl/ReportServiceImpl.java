@@ -32,10 +32,11 @@ public class ReportServiceImpl implements ReportService {
     public Map<String, Factor> creditCardReport(ReportContext context) {
         assert Strings.isNotBlank(context.getProvider());
         assert Strings.isNotBlank(context.getSubject());
-        assert Strings.isNotBlank(context.getBizType().value);
+        assert Strings.isNotBlank(context.getBizType().getValue());
 
         //1.设置计算所需的工具
         context.setCalculateHelper(new CalculateHelper());
+        //todo 模版关联biztype
         context.getCalculateHelper().setFactorDos(factorService.findFactorByTemplateId(0L));
         context.getCalculateHelper().setScriptDos(factorService.findScriptByTemplateId(0L));
 

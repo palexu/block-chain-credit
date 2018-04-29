@@ -1,15 +1,12 @@
 package top.palexu.blockchaincredit.credit.model.detail.creditCard;
 
 import lombok.Data;
-
-import java.util.Date;
+import top.palexu.blockchaincredit.credit.model.detail.OverdueRecord;
 
 /**
  * @author xjy
  */
 @Data
-public class CreditCardOverdueRecord {
+public class CreditCardOverdueRecord extends OverdueRecord {
     private long amount;
-    private String desc;
-    private Date gmtCreate;
 }
