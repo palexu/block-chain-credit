@@ -1,6 +1,5 @@
 package top.palexu.blockchaincredit.report.service;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import top.palexu.blockchaincredit.TestBase;
 import top.palexu.blockchaincredit.credit.util.DataMockUtil;
 import top.palexu.blockchaincredit.report.ReportContext;
-import top.palexu.blockchaincredit.report.facade.ReportService;
 
 
 public class ReportServiceTest extends TestBase {
@@ -24,7 +22,7 @@ public class ReportServiceTest extends TestBase {
         util.mockDataIntoDb(DataMockUtil.BIZ_TYPE);
     }
 
-    @After
+//    @After
     public void tearDown() {
         util.cleanUpMockDataFromDb(DataMockUtil.BIZ_TYPE);
     }

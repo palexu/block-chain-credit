@@ -6,7 +6,7 @@ import top.palexu.blockchaincredit.report.model.FactorDo;
 import java.util.List;
 
 //todo 完善controller
-@RestController("/report/manage")
+@RestController("/api/report/manage")
 public class ReportManagerController {
 
     public boolean addFactor(FactorDo factorDo) {

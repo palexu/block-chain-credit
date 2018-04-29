@@ -1,4 +1,4 @@
-package top.palexu.blockchaincredit.report.facade.impl;
+package top.palexu.blockchaincredit.report.service.impl;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,7 @@ import top.palexu.blockchaincredit.report.CalculateHelper;
 import top.palexu.blockchaincredit.report.ReportContext;
 import top.palexu.blockchaincredit.report.engine.ReportEngine;
 import top.palexu.blockchaincredit.report.engine.script.Factor;
-import top.palexu.blockchaincredit.report.facade.ReportService;
+import top.palexu.blockchaincredit.report.service.ReportService;
 import top.palexu.blockchaincredit.report.service.FactorService;
 
 import java.util.Map;

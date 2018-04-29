@@ -12,11 +12,11 @@ public class Test {
     public static void main(String... args) {
         Web3j web3j = Web3j.build(new HttpService("http://127.0.0.1:8545"));
         Credentials credentials = Credentials.create(
-                "09dd2aefba5d9868a0194f3940e2648b431545ea9533ad18e04f883b1b647f26");
+                "12eed5fca8c7aa1044170616de7edfa4d41f2e77d83bb7cfa0ceff6edb9e9673");
         try {
             Bcc contract = Bcc.deploy(web3j, credentials, ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT).send();
             TransactionReceipt transactionReceipt = contract.updatePrint("704961", "a", "print").send();
-            TransactionReceipt query = contract.queryPrint("704961","a").send();
+            TransactionReceipt query = contract.queryPrint("704961", "a").send();
             for (Bcc.PrintEventResponse eventResponse : contract.getPrintEvents(query)) {
                 System.out.println(
                         eventResponse._from + "\n" + eventResponse.subject + "\n" + eventResponse.printValue + "\n");

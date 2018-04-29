@@ -2,6 +2,8 @@ package top.palexu.blockchaincredit.report.engine.script;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @author xjy
  */
@@ -9,12 +11,10 @@ import lombok.Data;
 public class Factor {
     private String name;
     private Object value;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String desc;
+    /**
+     * 维度
+     */
+    private String type;
+    private Date gmtCreated = new Date();
 }

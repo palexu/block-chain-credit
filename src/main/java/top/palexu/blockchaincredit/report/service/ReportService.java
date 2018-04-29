@@ -1,4 +1,4 @@
-package top.palexu.blockchaincredit.report.facade;
+package top.palexu.blockchaincredit.report.service;
 
 import top.palexu.blockchaincredit.report.ReportContext;
 import top.palexu.blockchaincredit.report.engine.script.Factor;
