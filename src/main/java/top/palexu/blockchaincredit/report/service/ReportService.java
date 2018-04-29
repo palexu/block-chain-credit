@@ -16,5 +16,13 @@ public interface ReportService {
      * @param context
      * @return
      */
-    Map<String,Factor> creditCardReport(ReportContext context);
+    Map<String, Factor> creditCardReport(ReportContext context);
+
+    /**
+     * 共享单车报告
+     *
+     * @param context
+     * @return
+     */
+    Map<String, Factor> sharedBikeReport(ReportContext context);
 }
