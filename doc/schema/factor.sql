@@ -30,3 +30,31 @@ CREATE TABLE factor_template_relation (
   gmt_created DATETIME           DEFAULT now(),
   gmt_updated DATETIME           DEFAULT now() ON UPDATE now()
 );
+
+CREATE TABLE biztype (
+  id            BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name          VARCHAR(64)        DEFAULT NULL,
+  code          VARCHAR(64)        DEFAULT NULL,
+  `description` VARCHAR(1024)      DEFAULT NULL,
+  gmt_created   DATETIME           DEFAULT now(),
+  gmt_updated   DATETIME           DEFAULT now() ON UPDATE now()
+);
+
+CREATE TABLE provider_biztype_relation (
+  id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+  pname       VARCHAR(64)        DEFAULT NULL,
+  bname       VARCHAR(64)        DEFAULT NULL,
+  price       BIGINT             DEFAULT NULL,
+  count       BIGINT             DEFAULT NULL,
+  gmt_created DATETIME           DEFAULT now(),
+  gmt_updated DATETIME           DEFAULT now() ON UPDATE now()
+);
+
+CREATE TABLE provider (
+  id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name        VARCHAR(64)        DEFAULT NULL,
+  description VARCHAR(1024)      DEFAULT NULL,
+  address     VARCHAR(128)       DEFAULT NULL,
+  gmt_created DATETIME           DEFAULT now(),
+  gmt_updated DATETIME           DEFAULT now() ON UPDATE now()
+);
