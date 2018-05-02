@@ -22,14 +22,14 @@ public class ProviderController {
     public ProviderListResult getProviderList(@PathVariable(value = "bizType") String bizType) {
 
         ProviderListResult providerListResult = new ProviderListResult();
-        providerListResult.setDesc(bizType);
+        providerListResult.setBizType(bizType);
         providerListResult.setProviderList(providerService.getDataProviderList(bizType));
         return providerListResult;
     }
 
     @Data
     class ProviderListResult {
-        String desc;
+        String bizType;
         List<DataProvider> providerList;
     }
 }
