@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.palexu.blockchaincredit.TestBase;
+import top.palexu.blockchaincredit.credit.common.BizTypeEnum;
 import top.palexu.blockchaincredit.credit.model.CreditData;
 import top.palexu.blockchaincredit.credit.service.CreditDataStoreService;
 import top.palexu.blockchaincredit.credit.util.DataMockUtil;
@@ -17,9 +18,9 @@ public class CreditDataStoreServiceImplTest extends TestBase {
     @Test
     public void test() {
 
-        CreditData data = DataMockUtil.plainCreditData();
-        Assert.assertTrue(creditDataStoreService.insertCreditData(data));
-        Assert.assertTrue(creditDataStoreService.deleteCreditData(data));
+        CreditData data = DataMockUtil.mockData(BizTypeEnum.creditCard);
+        Assert.assertTrue(creditDataStoreService.insertCreditDataContent(data));
+//        Assert.assertTrue(creditDataStoreService.deleteCreditData(data));
     }
 
 }

@@ -1,6 +1,7 @@
 package top.palexu.blockchaincredit.credit.dao;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import top.palexu.blockchaincredit.credit.model.CreditData;
+import top.palexu.blockchaincredit.credit.model.CreditDataContent;
 import top.palexu.blockchaincredit.credit.model.CreditDataRecord;
+import top.palexu.blockchaincredit.credit.model.NaturePerson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,36 +93,42 @@ public class CreditMongo implements InitializingBean {
     }
 
     /**
-     * 插入数据,如存在则替换
+     * 插入content,如存在则替换
+     * 不管naturePerson
+     * <p>
+     * todo 如何高效增改
      *
      * @param data
      * @return
      */
-    public boolean upsert(CreditData data) {
+    public boolean upsertCreditContent(CreditData data) {
+        assert data.getDatas().size() != 0;
+
         CreditData old = this.selectOne(data.getProvider(), data.getSubject(), data.getBizType());
         if (null == old) {
             Document document = new Document();
+
             document.put("provider", data.getProvider());
             document.put("subject", data.getSubject());
             document.put("bizType", data.getBizType());
-            document.put("data", data.getData());
-            document.put("print", data.getPrint());
+
+            document.put("naturePerson", JSON.toJSONString(data.getNaturePerson()));
+
+            data.getLatestContent().setVersion(0L);
+            document.put("datas", JSON.toJSONString(data.getDatas()));
 
             mongoDatabase.getCollection(COLLECTION_NAME).insertOne(document);
         } else {
-            this.update(data.getProvider(), data.getSubject(), data.getBizType(), data.getData(), data.getPrint());
-        } return true;
-    }
+            //set version
+            Long oldVersion = old.getDatas().size() == 0 ? -1 : old.getLatestContent().getVersion();
+            data.getLatestContent().setVersion(oldVersion + 1);
 
-    /**
-     * 查询
-     *
-     * @param print 指纹
-     * @return
-     */
-    public CreditData selectOneByPrint(String print) {
-        Document document = mongoDatabase.getCollection(COLLECTION_NAME).find(eq("print", print)).first();
-        return JSON.parseObject(document.toJson(), CreditData.class);
+            old.addContent(data.getLatestContent());
+
+            this.update(data.getProvider(), data.getSubject(), data.getBizType(), data.getNaturePerson(),
+                        data.getDatas());
+        }
+        return true;
     }
 
     /**
@@ -133,7 +142,19 @@ public class CreditMongo implements InitializingBean {
     public CreditData selectOne(String provider, String subject, String bizType) {
         Document document = mongoDatabase.getCollection(COLLECTION_NAME).find(
                 and(eq("provider", provider), eq("subject", subject), eq("bizType", bizType))).first();
-        return document == null ? null : JSON.parseObject(document.toJson(), CreditData.class);
+
+        if (document == null) {
+            return null;
+        }
+
+        CreditData data = new CreditData();
+        data.setProvider(document.getString("provider"));
+        data.setSubject(document.getString("subject"));
+        data.setBizType(document.getString("bizType"));
+        data.setDatas(JSON.parseObject(document.getString("datas"), new TypeReference<List<CreditDataContent>>() {}));
+        data.setNaturePerson(JSON.parseObject(document.getString("naturePerson"), NaturePerson.class));
+
+        return data;
     }
 
     /**
@@ -160,20 +181,20 @@ public class CreditMongo implements InitializingBean {
      * @param provider
      * @param subject
      * @param bizType
-     * @param data
-     * @param print
+     * @param datas
      * @return
      */
-    public boolean update(String provider, String subject, String bizType, String data, String print) {
+    public boolean update(String provider, String subject, String bizType, NaturePerson naturePerson,
+                          List<CreditDataContent> datas) {
         Document oldDocument = new Document();
         oldDocument.put("provider", provider);
         oldDocument.put("subject", subject);
         oldDocument.put("bizType", bizType);
+        oldDocument.put("naturePerson", JSON.toJSONString(naturePerson));
 
         Document newDocument = new Document();
         newDocument.putAll(oldDocument);
-        newDocument.put("data", data);
-        newDocument.put("print", print);
+        newDocument.put("datas", JSON.toJSONString(datas));
 
         return null != mongoDatabase.getCollection(COLLECTION_NAME).replaceOne(oldDocument, newDocument);
     }
@@ -186,10 +207,10 @@ public class CreditMongo implements InitializingBean {
         return result.getDeletedCount() > 0;
     }
 
-    public boolean delete(String print) {
-        DeleteResult result = mongoDatabase.getCollection(COLLECTION_NAME).deleteOne(eq("print", print));
-
-        return result.getDeletedCount() > 0;
-    }
+    //    public boolean delete(String print) {
+    //        DeleteResult result = mongoDatabase.getCollection(COLLECTION_NAME).deleteOne(eq("print", print));
+    //
+    //        return result.getDeletedCount() > 0;
+    //    }
 
 }

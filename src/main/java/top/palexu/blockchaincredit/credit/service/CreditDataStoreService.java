@@ -21,7 +21,7 @@ public interface CreditDataStoreService {
      * @param bizType  业务场景
      * @param data     数据描述的主体
      */
-    boolean insertCreditData(CreditData creditData);
+    boolean insertCreditDataContent(CreditData creditData);
 
     /**
      * 查询征信数据
@@ -48,17 +48,6 @@ public interface CreditDataStoreService {
      * @return
      */
     List<CreditDataRecord> selectAllRecordBySubject(String subject);
-
-
-    /**
-     * 修改征信数据
-     *
-     * @param provider 数据提供者
-     * @param subject  主体
-     * @param bizType  业务场景
-     * @param data     待更新数据
-     */
-    boolean updateCreditData(CreditData creditData);
 
     /**
      * 删除征信数据

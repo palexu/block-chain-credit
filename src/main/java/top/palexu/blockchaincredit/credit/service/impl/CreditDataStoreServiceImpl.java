@@ -1,6 +1,5 @@
 package top.palexu.blockchaincredit.credit.service.impl;
 
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.palexu.blockchaincredit.credit.dao.CreditMongo;
@@ -23,18 +22,22 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
     CreditMongo creditMongo;
 
     @Override
-    public boolean insertCreditData(CreditData creditData) {
-        //计算指纹
-        String print = PrintUtil.getDataPrint(creditData.getProvider(), creditData.getSubject(),
-                                              creditData.getBizType(), creditData.getData());
-        creditData.setPrint(print);
+    public boolean insertCreditDataContent(CreditData creditData) {
+        //只接受最新的那一条
+        assert creditData.getDatas().size() == 1;
 
-        //todo 保存记录落区块链
+        //1.计算指纹
+        String print = PrintUtil.getDataPrint(creditData.getProvider(), creditData.getSubject(),
+                                              creditData.getBizType(),
+                                              creditData.getLatestContent().getData().toString());
+        creditData.getLatestContent().setPrint(print);
+
+        //todo 2.保存记录落区块链  需判断出是插入删除之类的属性
         boolean saveToBlockSuccess = true;
 
         //落数据库
         if (saveToBlockSuccess) {
-            return creditMongo.upsert(creditData);
+            return creditMongo.upsertCreditContent(creditData);
         } else {
             return false;
         }
@@ -61,24 +64,15 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
     }
 
     @Override
-    public boolean updateCreditData(CreditData creditData) {
-        //todo 修改记录落block
-        return false;
-    }
-
-    @Override
     public boolean deleteCreditData(CreditData creditData) {
         boolean result = false;
 
         //todo 删除记录落block
         //...
 
-        //删除库数据
-        if (Strings.isNotBlank(creditData.getPrint())) {
-            result = creditMongo.delete(creditData.getPrint());
-        } else {
-            result = creditMongo.delete(creditData.getProvider(), creditData.getSubject(), creditData.getBizType());
-        }
+
+        result = creditMongo.delete(creditData.getProvider(), creditData.getSubject(), creditData.getBizType());
+
 
         return result;
     }

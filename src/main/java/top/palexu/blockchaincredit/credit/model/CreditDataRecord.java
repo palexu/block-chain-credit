@@ -20,9 +20,4 @@ public class CreditDataRecord {
 
     /** 场景 */
     String bizType;
-
-    //========== 计算所得的数据
-
-    /** 数据指纹 */
-    String print;
 }

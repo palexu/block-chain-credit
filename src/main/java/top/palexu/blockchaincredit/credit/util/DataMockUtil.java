@@ -1,16 +1,13 @@
 package top.palexu.blockchaincredit.credit.util;
 
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.palexu.blockchaincredit.credit.common.BizTypeEnum;
 import top.palexu.blockchaincredit.credit.model.CreditData;
+import top.palexu.blockchaincredit.credit.model.CreditDataContent;
+import top.palexu.blockchaincredit.credit.model.CreditDataRow;
 import top.palexu.blockchaincredit.credit.model.NaturePerson;
-import top.palexu.blockchaincredit.credit.model.detail.OverdueRecord;
-import top.palexu.blockchaincredit.credit.model.detail.creditCard.CreditCardData;
-import top.palexu.blockchaincredit.credit.model.detail.creditCard.CreditCardOverdueRecord;
-import top.palexu.blockchaincredit.credit.model.detail.shareBike.ShareBikeData;
 import top.palexu.blockchaincredit.credit.service.CreditDataStoreService;
 
 import java.util.Date;
@@ -46,18 +43,19 @@ public class DataMockUtil {
      */
     public static CreditData mockData(BizTypeEnum bizTypeEnum) {
         CreditData creditData = new CreditData();
+        creditData.setNaturePerson(mockNaturePerson());
 
         //设置数据内容
         switch (bizTypeEnum) {
             case creditCard:
                 //设置主体三要素
                 setProSubBiz(creditData, BizTypeEnum.creditCard);
-                creditData.setData(JSON.toJSONString(mockCreditCard()));
+                creditData.addContent(mockCreditCard());
                 break;
             case sharedBike:
                 //设置主体三要素
                 setProSubBiz(creditData, BizTypeEnum.sharedBike);
-                creditData.setData(JSON.toJSONString(mockShareBikeData()));
+                creditData.addContent(mockShareBikeData());
                 break;
             default:
                 log.error("未找到{}对应的mock工具", bizTypeEnum);
@@ -69,29 +67,12 @@ public class DataMockUtil {
     }
 
     /**
-     * 注意，自然人是同一个,只能模拟单个人的数据
-     *
-     * @return
-     */
-    public static CreditData plainCreditData() {
-        CreditData creditData = new CreditData();
-
-        //设置主体三要素
-        setProSubBiz(creditData, BizTypeEnum.creditCard);
-
-        //设置数据内容
-        creditData.setData("hello world");
-
-        return creditData;
-    }
-
-    /**
      * 将模拟数据保存入库
      *
      * @param bizTypeEnum
      */
     public void mockDataIntoDb(BizTypeEnum bizTypeEnum) {
-        service.insertCreditData(mockData(bizTypeEnum));
+        service.insertCreditDataContent(mockData(bizTypeEnum));
     }
 
     /**
@@ -109,29 +90,27 @@ public class DataMockUtil {
      *
      * @return
      */
-    private static CreditCardData mockCreditCard() {
+    private static CreditDataContent mockCreditCard() {
         //模拟信用卡数据
-        CreditCardData creditCardData = new CreditCardData();
-        creditCardData.setNaturePerson(mockNaturePerson());
+        CreditDataContent content = new CreditDataContent();
 
         //模拟逾期数据
         for (int i = 0; i < 10; i++) {
-            creditCardData.getCreditCardOverdueRecords().add(mockOverDueRecord());
+            content.putRow("overDue", mockOverDueRecord());
         }
 
         //todo 模拟信用卡其他数据...
-        return creditCardData;
+        return content;
     }
 
 
-    private static ShareBikeData mockShareBikeData() {
+    private static CreditDataContent mockShareBikeData() {
         //模拟共享单车数据
-        ShareBikeData shareBikeData = new ShareBikeData();
-        shareBikeData.setNaturePerson(mockNaturePerson());
+        CreditDataContent shareBikeData = new CreditDataContent();
 
         //模拟单车逾期
         for (int i = 0; i < 3; i++) {
-            shareBikeData.getReturnBikeOverdueRecord().add(shardBikeOverDueRecord());
+            shareBikeData.putRow("overDue", shardBikeOverDueRecord());
         }
 
         return shareBikeData;
@@ -154,7 +133,7 @@ public class DataMockUtil {
      *
      * @return
      */
-    private static NaturePerson mockNaturePerson() {
+    public static NaturePerson mockNaturePerson() {
         NaturePerson naturePerson = new NaturePerson();
         naturePerson.setName(NAME);
         naturePerson.setIdCard(ID_CARD);
@@ -170,12 +149,12 @@ public class DataMockUtil {
      *
      * @return
      */
-    private static CreditCardOverdueRecord mockOverDueRecord() {
+    private static CreditDataRow mockOverDueRecord() {
         Random random = new Random();
 
-        CreditCardOverdueRecord overdueRecord = new CreditCardOverdueRecord();
-        overdueRecord.setAmount(random.nextInt(100000));
-        overdueRecord.setDesc("test");
+        CreditDataRow overdueRecord = new CreditDataRow();
+        overdueRecord.setValue(random.nextInt(100000));
+        overdueRecord.setDescription("test");
         overdueRecord.setGmtCreated(new Date());
         return overdueRecord;
     }
@@ -184,11 +163,13 @@ public class DataMockUtil {
 
 
     /** =====================单车 mock start ================================== */
-    private static OverdueRecord shardBikeOverDueRecord() {
+    private static CreditDataRow shardBikeOverDueRecord() {
         Random random = new Random();
 
-        OverdueRecord overdueRecord = new CreditCardOverdueRecord();
-        overdueRecord.setDesc("test" + random.nextInt(100));
+        CreditDataRow overdueRecord = new CreditDataRow();
+        overdueRecord.setValue("  ");
+        overdueRecord.setAddress("here");
+        overdueRecord.setDescription("test" + random.nextInt(100));
         overdueRecord.setGmtCreated(new Date());
         return overdueRecord;
     }
