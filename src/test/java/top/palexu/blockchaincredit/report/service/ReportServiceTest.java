@@ -37,7 +37,7 @@ public class ReportServiceTest extends TestBase {
         context.setSubject(DataMockUtil.SUBJECT);
         context.setBizType(BizTypeEnum.creditCard);
 
-        Assert.assertTrue(null != reportService.creditCardReport(context));
+        Assert.assertTrue(null != reportService.singleReport(context));
     }
 
 }

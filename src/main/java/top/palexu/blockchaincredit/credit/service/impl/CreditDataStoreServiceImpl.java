@@ -59,8 +59,18 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
     }
 
     @Override
+    public List<CreditData> selectCreditData(String subject, String bizType) {
+        return creditMongo.selectCreditData(subject, bizType);
+    }
+
+    @Override
     public List<CreditDataRecord> selectAllRecordBySubject(String subject) {
         return creditMongo.selectRecordBySubject(subject);
+    }
+
+    @Override
+    public List<CreditDataRecord> selectAllRecordBySubjectBizType(String subject, String bizType) {
+        return creditMongo.selectRecordBySubjectBizType(subject,bizType);
     }
 
     @Override

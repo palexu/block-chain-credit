@@ -40,6 +40,7 @@ public class SearchReportServiceImpl implements SearchReportService {
         List<CreditDataRecord> recordList = creditDataStoreService.selectAllRecordBySubject(subject);
 
         //按照bizType不同，选择不同报告生成器进行计算
+        //不同bizType的数据和因子不能做融合
         for (CreditDataRecord record : recordList) {
             String bizType = record.getBizType();
             ReportContext context = new ReportContext(subject, record.getProvider(), bizType);
@@ -48,11 +49,11 @@ public class SearchReportServiceImpl implements SearchReportService {
             Map<String, Factor> factorMap = null;
             //todo 改为在reportservice中处理name 和 desc
             if (BizTypeEnum.creditCard.getValue().equals(bizType)) {
-                factorMap = reportService.creditCardReport(context);
+                factorMap = reportService.singleReport(context);
                 report.setReportName("信用卡报告");
                 report.setDesc("信用卡报告-DATAHUB");
             } else if (BizTypeEnum.sharedBike.getValue().equals(bizType)) {
-                factorMap = reportService.creditCardReport(context);
+                factorMap = reportService.singleReport(context);
                 report.setReportName("共享单车报告");
                 report.setDesc("测试");
             } else {
@@ -67,6 +68,8 @@ public class SearchReportServiceImpl implements SearchReportService {
 
             //设置通用属性
             report.getFactors().addAll(factorMap.values());
+            report.setBizType(bizType);
+            report.setSubject(subject);
             report.setGmtCreated(new Date());
 
             //组合所有的报告

@@ -18,7 +18,14 @@ public class CreditDataStoreServiceImplTest extends TestBase {
     @Test
     public void test() {
 
+        //todo 测试多次插入
+//        DataMockUtil.SUBJECT = "top.palexu.blockchaincredit.credit.service.impl.CreditDataStoreServiceImplTest.test";
+        DataMockUtil.PROVIDER="TEST_NLFOUWEF";
         CreditData data = DataMockUtil.mockData(BizTypeEnum.creditCard);
+        Assert.assertTrue(creditDataStoreService.insertCreditDataContent(data));
+        data = DataMockUtil.mockData(BizTypeEnum.creditCard);
+        Assert.assertTrue(creditDataStoreService.insertCreditDataContent(data));
+        data = DataMockUtil.mockData(BizTypeEnum.creditCard);
         Assert.assertTrue(creditDataStoreService.insertCreditDataContent(data));
 //        Assert.assertTrue(creditDataStoreService.deleteCreditData(data));
     }

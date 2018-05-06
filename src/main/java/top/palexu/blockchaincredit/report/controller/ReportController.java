@@ -24,7 +24,7 @@ public class ReportController {
     public String creditCardReport(@PathVariable("provider") String provider, @PathVariable("subject") String subject,
                                    @PathVariable("bizType") String bizType) {
         ReportContext context = new ReportContext(subject, provider, bizType);
-        return JSON.toJSONString(reportService.creditCardReport(context));
+        return JSON.toJSONString(reportService.singleReport(context));
     }
 
     @GetMapping("/{subject}")

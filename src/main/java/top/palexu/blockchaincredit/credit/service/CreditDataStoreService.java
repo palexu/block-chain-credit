@@ -42,12 +42,28 @@ public interface CreditDataStoreService {
     CreditData selectCreditData(String provider, String subject, String bizType);
 
     /**
+     * 查询征信数据
+     *
+     * @param subject 主体
+     * @param bizType 业务场景
+     */
+    List<CreditData> selectCreditData(String subject, String bizType);
+
+    /**
      * 获取subject下所有数据
      *
      * @param subject
      * @return
      */
     List<CreditDataRecord> selectAllRecordBySubject(String subject);
+
+    /**
+     * 获取subject下所有数据
+     *
+     * @param subject
+     * @return
+     */
+    List<CreditDataRecord> selectAllRecordBySubjectBizType(String subject,String bizType);
 
     /**
      * 删除征信数据

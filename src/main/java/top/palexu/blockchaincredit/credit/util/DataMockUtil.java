@@ -22,14 +22,14 @@ import java.util.Random;
 @Slf4j
 public class DataMockUtil {
     /** ============查询 三要素============== */
-    public static final String PROVIDER = "DATAHUB";
-    public static final String SUBJECT = "TEST01";
-    //    public static final BizTypeEnum BIZ_TYPE = BizTypeEnum.creditCard;
+    public static String PROVIDER = "DATAHUB";
+    public static String SUBJECT = "TEST01";
+    //    public static BizTypeEnum BIZ_TYPE = BizTypeEnum.creditCard;
 
     /** ============自然 三要素============== */
-    public static final String NAME = "TEST01";
-    public static final String ID_CARD = "110000199001012001";
-    public static final String PHONE = "15900011111";
+    public static String NAME = "TEST01";
+    public static String ID_CARD = "110000199001012001";
+    public static String PHONE = "15900011111";
 
     @Autowired
     CreditDataStoreService service;

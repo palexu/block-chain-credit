@@ -12,6 +12,9 @@ import java.util.List;
  */
 @Data
 public class Report {
+    private String bizType;
+    private String subject;
+
     private String reportName;
     private String desc;
     private List<Factor> factors = new ArrayList<>();

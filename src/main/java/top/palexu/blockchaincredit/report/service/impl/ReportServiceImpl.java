@@ -31,7 +31,7 @@ public class ReportServiceImpl implements ReportService {
      * @return
      */
     @Override
-    public Map<String, Factor> creditCardReport(ReportContext context) {
+    public Map<String, Factor> singleReport(ReportContext context) {
         assert Strings.isNotBlank(context.getProvider());
         assert Strings.isNotBlank(context.getSubject());
         assert Strings.isNotBlank(context.getBizType().getValue());
@@ -56,7 +56,26 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Map<String, Factor> sharedBikeReport(ReportContext context) {
-        return null;
+    public Map<String, Factor> mixedReport(ReportContext context) {
+        assert Strings.isNotBlank(context.getSubject());
+        assert Strings.isNotBlank(context.getBizType().getValue());
+
+        //1.设置计算所需的工具
+        context.setCalculateHelper(new CalculateHelper());
+
+        Long templateId = factorService.findTemplateIdByBiztype(context.getBizType().getValue());
+        if (templateId == null) {
+            log.error("biztype={} 所关联的模板为空", context.getBizType());
+            return null;
+        }
+
+        context.getCalculateHelper().setFactorDos(factorService.findFactorByTemplateId(templateId));
+        context.getCalculateHelper().setScriptDos(factorService.findScriptByTemplateId(templateId));
+
+        //2.计算
+        engine.calculate(context);
+
+        //3.返回结果
+        return context.getFactorMap();
     }
 }

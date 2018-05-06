@@ -126,7 +126,7 @@ public class CreditMongo implements InitializingBean {
             old.addContent(data.getLatestContent());
 
             this.update(data.getProvider(), data.getSubject(), data.getBizType(), data.getNaturePerson(),
-                        data.getDatas());
+                        old.getDatas());
         }
         return true;
     }
@@ -158,6 +158,25 @@ public class CreditMongo implements InitializingBean {
     }
 
     /**
+     * 查询
+     *
+     * @param subject
+     * @param bizType
+     * @return
+     */
+    public List<CreditData> selectCreditData(String subject, String bizType) {
+        FindIterable<Document> documentFindIterable = mongoDatabase.getCollection(COLLECTION_NAME).find(
+                and(eq("subject", subject), eq("bizType", bizType)));
+
+        List<CreditData> creditDatas = new ArrayList<>();
+        for (Document doc : documentFindIterable) {
+            creditDatas.add(JSON.parseObject(doc.toJson(), CreditData.class));
+        }
+
+        return creditDatas;
+    }
+
+    /**
      * 查询subject主体的所有相关信用数据
      *
      * @param subject
@@ -174,6 +193,25 @@ public class CreditMongo implements InitializingBean {
 
         return creditDatas;
     }
+
+    /**
+     * 查询subject主体的所有相关信用数据
+     *
+     * @param subject
+     * @return
+     */
+    public List<CreditDataRecord> selectRecordBySubjectBizType(String subject, String bizType) {
+        FindIterable<Document> documentFindIterable = mongoDatabase.getCollection(COLLECTION_NAME).find(
+                and(eq("subject", subject), eq("bizType", bizType)));
+
+        List<CreditDataRecord> creditDatas = new ArrayList<>();
+        for (Document doc : documentFindIterable) {
+            creditDatas.add(JSON.parseObject(doc.toJson(), CreditDataRecord.class));
+        }
+
+        return creditDatas;
+    }
+
 
     /**
      * 根据 provider subject bizType 来更新 datadata，print
