@@ -58,3 +58,16 @@ CREATE TABLE provider (
   gmt_created DATETIME           DEFAULT now(),
   gmt_updated DATETIME           DEFAULT now() ON UPDATE now()
 );
+
+CREATE TABLE mmall_user (
+  id          INTEGER      PRIMARY KEY AUTO_INCREMENT,
+  username    VARCHAR(128) DEFAULT NULL,
+  password    VARCHAR(256) DEFAULT NULL,
+  email       VARCHAR(128) DEFAULT NULL,
+  phone       VARCHAR(18)  DEFAULT NULL,
+  question    VARCHAR(128) DEFAULT NULL,
+  answer      VARCHAR(128) DEFAULT NULL,
+  role        INTEGER      DEFAULT NULL,
+  create_time TIMESTAMP    DEFAULT now(),
+  update_time TIMESTAMP    DEFAULT now() ON UPDATE now()
+);

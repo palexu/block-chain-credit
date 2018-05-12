@@ -10,12 +10,13 @@ import top.palexu.blockchaincredit.user.model.User;
 import top.palexu.blockchaincredit.user.service.IUserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * Created by thRShy on 2017/5/1.
  */
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/api/user")
 public class UserController {
 
     @Autowired
@@ -35,10 +36,10 @@ public class UserController {
      * @param session
      * @return
      */
-    @PostMapping(value = "login")
+    @PostMapping(value = "/login")
     @ResponseBody
-    public ServerResponse<User> login(String username, String password, HttpSession session) {
-        ServerResponse<User> response = iUserService.login(username, password);
+    public ServerResponse<User> login(@RequestBody Map<String, String> map, HttpSession session) {
+        ServerResponse<User> response = iUserService.login(map.get("username"), map.get("password"));
         if (response.isSuccess()) {
             session.setAttribute(Const.CURRENT_USER, response.getData());
         }
@@ -53,9 +54,9 @@ public class UserController {
         return ServerResponse.createBySuccess();
     }
 
-    @GetMapping(value = "/register")
+    @PostMapping(value = "/register")
     @ResponseBody
-    public ServerResponse<String> register(User user) {
+    public ServerResponse<String> register(@RequestBody User user) {
         return iUserService.register(user);
     }
 

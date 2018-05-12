@@ -16,5 +16,9 @@ public class Factor {
      * 维度
      */
     private String type;
+    /**
+     * 提供者，用于页面的展示
+     */
+    private String provider;
     private Date gmtCreated = new Date();
 }
