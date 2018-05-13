@@ -23,7 +23,7 @@ public class ReportCalculateHandler extends AbstractHandler {
     @Override
     public void process(ReportContext context) {
         //1.获取groovy脚本实体
-        List<ScriptProcessor> scriptProcessors = GroovyScriptLoader.parse(context.getCalculateHelper().getScriptDos());
+        List<ScriptProcessor> scriptProcessors = GroovyScriptLoader.parse(context.getCalculateHelper().getFactorDos().values());
 
         //2.调用实体进行计算
         for (ScriptProcessor processor : scriptProcessors) {

@@ -1,123 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.palexu.blockchaincredit.credit.dao.ProviderBiztypeRelationMapper">
-  <resultMap id="BaseResultMap" type="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="pname" jdbcType="VARCHAR" property="pname" />
-    <result column="bname" jdbcType="VARCHAR" property="bname" />
-    <result column="price" jdbcType="BIGINT" property="price" />
-    <result column="count" jdbcType="BIGINT" property="count" />
-    <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
-    <result column="gmt_updated" jdbcType="TIMESTAMP" property="gmtUpdated" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, pname, bname, price, `count`, gmt_created, gmt_updated
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from provider_biztype_relation
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from provider_biztype_relation
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into provider_biztype_relation (pname, bname, price, 
-      `count`, gmt_created, gmt_updated
-      )
-    values (#{pname,jdbcType=VARCHAR}, #{bname,jdbcType=VARCHAR}, #{price,jdbcType=BIGINT}, 
-      #{count,jdbcType=BIGINT}, #{gmtCreated,jdbcType=TIMESTAMP}, #{gmtUpdated,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into provider_biztype_relation
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="pname != null">
-        pname,
-      </if>
-      <if test="bname != null">
-        bname,
-      </if>
-      <if test="price != null">
-        price,
-      </if>
-      <if test="count != null">
-        `count`,
-      </if>
-      <if test="gmtCreated != null">
-        gmt_created,
-      </if>
-      <if test="gmtUpdated != null">
-        gmt_updated,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="pname != null">
-        #{pname,jdbcType=VARCHAR},
-      </if>
-      <if test="bname != null">
-        #{bname,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        #{price,jdbcType=BIGINT},
-      </if>
-      <if test="count != null">
-        #{count,jdbcType=BIGINT},
-      </if>
-      <if test="gmtCreated != null">
-        #{gmtCreated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtUpdated != null">
-        #{gmtUpdated,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
-    update provider_biztype_relation
-    <set>
-      <if test="pname != null">
-        pname = #{pname,jdbcType=VARCHAR},
-      </if>
-      <if test="bname != null">
-        bname = #{bname,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        price = #{price,jdbcType=BIGINT},
-      </if>
-      <if test="count != null">
-        `count` = #{count,jdbcType=BIGINT},
-      </if>
-      <if test="gmtCreated != null">
-        gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtUpdated != null">
-        gmt_updated = #{gmtUpdated,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
-    update provider_biztype_relation
-    set pname = #{pname,jdbcType=VARCHAR},
-      bname = #{bname,jdbcType=VARCHAR},
-      price = #{price,jdbcType=BIGINT},
-      `count` = #{count,jdbcType=BIGINT},
-      gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
-      gmt_updated = #{gmtUpdated,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <select id="selectByBizType" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from provider_biztype_relation
-    where bname = #{bizType}
-  </select>
+    <resultMap id="BaseResultMap" type="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="pname" jdbcType="VARCHAR" property="pname"/>
+        <result column="bname" jdbcType="VARCHAR" property="bname"/>
+        <result column="template_id" jdbcType="BIGINT" property="templateId"/>
+        <result column="price" jdbcType="BIGINT" property="price"/>
+        <result column="count" jdbcType="BIGINT" property="count"/>
+        <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated"/>
+        <result column="gmt_updated" jdbcType="TIMESTAMP" property="gmtUpdated"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, pname, bname, template_id, price, `count`, gmt_created, gmt_updated
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from provider_biztype_relation
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM provider_biztype_relation
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into provider_biztype_relation (pname, bname, template_id,
+        price, `count`, gmt_created,
+        gmt_updated)
+        values (#{pname,jdbcType=VARCHAR}, #{bname,jdbcType=VARCHAR}, #{templateId,jdbcType=BIGINT},
+        #{price,jdbcType=BIGINT}, #{count,jdbcType=BIGINT}, #{gmtCreated,jdbcType=TIMESTAMP},
+        #{gmtUpdated,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into provider_biztype_relation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pname != null">
+                pname,
+            </if>
+            <if test="bname != null">
+                bname,
+            </if>
+            <if test="templateId != null">
+                template_id,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="count != null">
+                `count`,
+            </if>
+            <if test="gmtCreated != null">
+                gmt_created,
+            </if>
+            <if test="gmtUpdated != null">
+                gmt_updated,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pname != null">
+                #{pname,jdbcType=VARCHAR},
+            </if>
+            <if test="bname != null">
+                #{bname,jdbcType=VARCHAR},
+            </if>
+            <if test="templateId != null">
+                #{templateId,jdbcType=BIGINT},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=BIGINT},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=BIGINT},
+            </if>
+            <if test="gmtCreated != null">
+                #{gmtCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdated != null">
+                #{gmtUpdated,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
+        update provider_biztype_relation
+        <set>
+            <if test="pname != null">
+                pname = #{pname,jdbcType=VARCHAR},
+            </if>
+            <if test="bname != null">
+                bname = #{bname,jdbcType=VARCHAR},
+            </if>
+            <if test="templateId != null">
+                template_id = #{templateId,jdbcType=BIGINT},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=BIGINT},
+            </if>
+            <if test="count != null">
+                `count` = #{count,jdbcType=BIGINT},
+            </if>
+            <if test="gmtCreated != null">
+                gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdated != null">
+                gmt_updated = #{gmtUpdated,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
+        UPDATE provider_biztype_relation
+        SET pname       = #{pname,jdbcType=VARCHAR}, bname = #{bname,jdbcType=VARCHAR},
+            template_id = #{templateId,jdbcType=BIGINT}, price = #{price,jdbcType=BIGINT},
+            `count`     = #{count,jdbcType=BIGINT}, gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+            gmt_updated = #{gmtUpdated,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByBizType" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from provider_biztype_relation
+        where bname = #{bizType}
+    </select>
+    <select id="selectByProviderName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from provider_biztype_relation
+        where pname = #{pname}
+    </select>
 </mapper>

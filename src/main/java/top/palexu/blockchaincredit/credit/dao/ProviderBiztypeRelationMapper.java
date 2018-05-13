@@ -18,4 +18,6 @@ public interface ProviderBiztypeRelationMapper {
     int updateByPrimaryKey(ProviderBiztypeRelation record);
 
     List<ProviderBiztypeRelation> selectByBizType(String bizType);
+
+    List<ProviderBiztypeRelation> selectByProviderName(String pname);
 }

@@ -10,6 +10,8 @@ public class ProviderBiztypeRelation implements Serializable {
 
     private String bname;
 
+    private Long templateId;
+
     private Long price;
 
     private Long count;
@@ -42,6 +44,14 @@ public class ProviderBiztypeRelation implements Serializable {
 
     public void setBname(String bname) {
         this.bname = bname == null ? null : bname.trim();
+    }
+
+    public Long getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(Long templateId) {
+        this.templateId = templateId;
     }
 
     public Long getPrice() {
@@ -85,6 +95,7 @@ public class ProviderBiztypeRelation implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", pname=").append(pname);
         sb.append(", bname=").append(bname);
+        sb.append(", templateId=").append(templateId);
         sb.append(", price=").append(price);
         sb.append(", count=").append(count);
         sb.append(", gmtCreated=").append(gmtCreated);

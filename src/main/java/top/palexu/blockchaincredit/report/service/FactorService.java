@@ -4,21 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.palexu.blockchaincredit.report.dao.FactorDoMapper;
 import top.palexu.blockchaincredit.report.dao.FactorTemplateRelationMapper;
-import top.palexu.blockchaincredit.report.dao.ScriptDoMapper;
 import top.palexu.blockchaincredit.report.dao.TemplateDoMapper;
 import top.palexu.blockchaincredit.report.model.FactorDo;
-import top.palexu.blockchaincredit.report.model.ScriptDo;
 import top.palexu.blockchaincredit.report.model.TemplateDo;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class FactorService {
     @Autowired
     TemplateDoMapper templateDoMapper;
-
-    @Autowired
-    ScriptDoMapper scriptDoMapper;
 
     @Autowired
     FactorDoMapper factorDoMapper;
@@ -41,18 +38,5 @@ public class FactorService {
         }
 
         return factors;
-    }
-
-    public List<ScriptDo> findScriptByTemplateId(long templateId) {
-        Map<String, FactorDo> factors = this.findFactorByTemplateId(templateId);
-        Set<Long> scriptIdSet = new HashSet<>();
-        for (FactorDo d : factors.values()) {
-            scriptIdSet.add(d.getScriptId());
-        }
-        List<ScriptDo> scripts = new ArrayList<>();
-        for (Long id : scriptIdSet) {
-            scripts.add(scriptDoMapper.selectByPrimaryKey(id));
-        }
-        return scripts;
     }
 }

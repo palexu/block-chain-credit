@@ -15,9 +15,4 @@ public class FactorServiceTest extends TestBase {
         Assert.assertTrue(factorService.findFactorByTemplateId(0L).size() > 0);
     }
 
-    @Test
-    public void findScriptByTemplateId() throws Exception {
-        Assert.assertTrue(factorService.findScriptByTemplateId(0L).size() > 0);
-    }
-
 }

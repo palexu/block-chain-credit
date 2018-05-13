@@ -7,6 +7,8 @@ import top.palexu.blockchaincredit.credit.dao.ProviderDoMapper;
 import top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation;
 import top.palexu.blockchaincredit.credit.service.ProviderService;
 import top.palexu.blockchaincredit.credit.vo.DataProvider;
+import top.palexu.blockchaincredit.credit.vo.ProviderRelationVo;
+import top.palexu.blockchaincredit.report.dao.TemplateDoMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,9 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Autowired
     ProviderDoMapper providerDoMapper;
+
+    @Autowired
+    TemplateDoMapper templateDoMapper;
 
     @Override
     public List<DataProvider> getDataProviderList(String bizType) {
@@ -35,5 +40,19 @@ public class ProviderServiceImpl implements ProviderService {
         }
 
         return providers;
+    }
+
+    @Override
+    public ProviderRelationVo getBizTemByProvider(String pname) {
+        ProviderRelationVo vo = new ProviderRelationVo();
+        List<ProviderBiztypeRelation> relations = providerBiztypeRelationMapper.selectByProviderName(pname);
+
+        vo.setRelations(relations);
+
+        for (ProviderBiztypeRelation r : relations) {
+            vo.getTemplateDos().add(templateDoMapper.selectByPrimaryKey(r.getTemplateId()));
+        }
+
+        return vo;
     }
 }

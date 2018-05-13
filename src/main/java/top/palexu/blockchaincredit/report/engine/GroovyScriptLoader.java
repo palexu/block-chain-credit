@@ -8,9 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.palexu.blockchaincredit.common.util.MD5Util;
 import top.palexu.blockchaincredit.report.engine.script.ScriptProcessor;
-import top.palexu.blockchaincredit.report.model.ScriptDo;
+import top.palexu.blockchaincredit.report.model.FactorDo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,14 +41,14 @@ public class GroovyScriptLoader {
         return null;
     }
 
-    public static GroovyObject parse(ScriptDo scriptDo) {
-        assert !Strings.isNullOrEmpty(scriptDo.getContent());
-        return parseScript(scriptDo.getContent());
+    public static GroovyObject parse(FactorDo factorDo) {
+        assert !Strings.isNullOrEmpty(factorDo.getContent());
+        return parseScript(factorDo.getContent());
     }
 
-    public static List<ScriptProcessor> parse(List<ScriptDo> scriptDos) {
-        List<ScriptProcessor> gs = new ArrayList<>(scriptDos.size());
-        for (ScriptDo sd : scriptDos) {
+    public static List<ScriptProcessor> parse(Collection<FactorDo> factorDos) {
+        List<ScriptProcessor> gs = new ArrayList<>(factorDos.size());
+        for (FactorDo sd : factorDos) {
             gs.add(new ScriptProcessor(parse(sd)));
         }
         return gs;

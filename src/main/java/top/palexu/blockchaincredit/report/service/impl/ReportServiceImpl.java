@@ -46,7 +46,6 @@ public class ReportServiceImpl implements ReportService {
         }
 
         context.getCalculateHelper().setFactorDos(factorService.findFactorByTemplateId(templateId));
-        context.getCalculateHelper().setScriptDos(factorService.findScriptByTemplateId(templateId));
 
         //2.计算
         engine.calculate(context);
@@ -70,7 +69,6 @@ public class ReportServiceImpl implements ReportService {
         }
 
         context.getCalculateHelper().setFactorDos(factorService.findFactorByTemplateId(templateId));
-        context.getCalculateHelper().setScriptDos(factorService.findScriptByTemplateId(templateId));
 
         //2.计算
         engine.calculate(context);
