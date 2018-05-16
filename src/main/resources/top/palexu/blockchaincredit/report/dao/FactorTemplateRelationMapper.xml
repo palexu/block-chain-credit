@@ -128,4 +128,9 @@
         FROM factor_template_relation
         WHERE template_id = #{templateId}
     </select>
+    <delete id="deleteByFactorIdAndTemplateId" parameterType="Map">
+        DELETE FROM factor_template_relation
+        WHERE factor_id = #{factorId}
+        and template_id = #{templateId}
+    </delete>
 </mapper>

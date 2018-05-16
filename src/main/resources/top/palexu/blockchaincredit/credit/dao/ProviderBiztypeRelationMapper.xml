@@ -135,4 +135,9 @@
         from provider_biztype_relation
         where pname = #{pname}
     </select>
+    <delete id="deleteByTemplateIdAndProviderName" parameterType="Map">
+        DELETE FROM provider_biztype_relation
+        WHERE template_id = #{templateId}
+              AND pname = #{pname}
+    </delete>
 </mapper>

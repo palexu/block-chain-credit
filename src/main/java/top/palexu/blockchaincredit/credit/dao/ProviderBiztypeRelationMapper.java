@@ -1,5 +1,6 @@
 package top.palexu.blockchaincredit.credit.dao;
 
+import org.apache.ibatis.annotations.Param;
 import top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface ProviderBiztypeRelationMapper {
     List<ProviderBiztypeRelation> selectByBizType(String bizType);
 
     List<ProviderBiztypeRelation> selectByProviderName(String pname);
+
+    int deleteByTemplateIdAndProviderName(@Param("templateId") Long templateId, @Param("pname") String pame);
 }

@@ -54,4 +54,6 @@ public interface FactorTemplateRelationMapper {
     int updateByPrimaryKey(FactorTemplateRelation record);
 
     List<Long> findFactorIdByTemplateId(Long id);
+
+    int deleteByFactorIdAndTemplateId(Long templateId,Long factorId);
 }
