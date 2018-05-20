@@ -58,4 +58,21 @@ public class ManageServiceImpl implements ManageService {
             return false;
         }
     }
+
+    @Override
+    public boolean updateTemplate(TemplateDo templateDo, String pname) {
+        try {
+            templateDoMapper.updateByPrimaryKeySelective(templateDo);
+            ProviderBiztypeRelation relation = new ProviderBiztypeRelation();
+            relation.setTemplateId(templateDo.getId());
+            relation.setPname(pname);
+            relation.setBname(templateDo.getBizType());
+            relation.setGmtUpdated(new Date());
+            providerRelationMapper.updateByTemplateIdSelective(relation);
+            return true;
+        } catch (Exception e) {
+            log.error("updateTemplate", e);
+            return false;
+        }
+    }
 }

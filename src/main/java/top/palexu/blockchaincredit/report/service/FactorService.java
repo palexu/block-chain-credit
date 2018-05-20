@@ -2,6 +2,8 @@ package top.palexu.blockchaincredit.report.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.palexu.blockchaincredit.credit.dao.ProviderBiztypeRelationMapper;
+import top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation;
 import top.palexu.blockchaincredit.report.dao.FactorDoMapper;
 import top.palexu.blockchaincredit.report.dao.FactorTemplateRelationMapper;
 import top.palexu.blockchaincredit.report.dao.TemplateDoMapper;
@@ -23,8 +25,15 @@ public class FactorService {
     @Autowired
     FactorTemplateRelationMapper relationMapper;
 
-    public Long findTemplateIdByBiztype(String bizType) {
-        TemplateDo td = templateDoMapper.selectByBizType(bizType);
+    @Autowired
+    ProviderBiztypeRelationMapper pbRelationMapper;
+
+    public Long findTemplateIdByBiztypeProvider(String bizType, String provider) {
+        ProviderBiztypeRelation r = pbRelationMapper.selectByBizTypeProvider(bizType, provider);
+        if (r == null) {
+            return null;
+        }
+        TemplateDo td = templateDoMapper.selectByPrimaryKey(r.getTemplateId());
         return td == null ? null : td.getId();
     }
 

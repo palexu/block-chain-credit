@@ -6,4 +6,6 @@ public interface ManageService {
     boolean insertTemplate(TemplateDo templateDo, String pname);
 
     boolean deleteTemplate(Long templateId, String pname);
+
+    boolean updateTemplate(TemplateDo templateDo, String pname);
 }

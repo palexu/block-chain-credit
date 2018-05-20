@@ -140,4 +140,35 @@
         WHERE template_id = #{templateId}
               AND pname = #{pname}
     </delete>
+    <update id="updateByTemplateIdSelective"
+            parameterType="top.palexu.blockchaincredit.credit.model.ProviderBiztypeRelation">
+        update provider_biztype_relation
+        <set>
+            <if test="pname != null">
+                pname = #{pname,jdbcType=VARCHAR},
+            </if>
+            <if test="bname != null">
+                bname = #{bname,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=BIGINT},
+            </if>
+            <if test="count != null">
+                `count` = #{count,jdbcType=BIGINT},
+            </if>
+            <if test="gmtCreated != null">
+                gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdated != null">
+                gmt_updated = #{gmtUpdated,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where template_id = #{templateId,jdbcType=BIGINT}
+    </update>
+    <select id="selectByBizTypeProvider" parameterType="Map" resultMap="BaseResultMap">
+        SELECT *
+        FROM provider_biztype_relation
+        WHERE bname = #{bizType}
+              AND pname = #{provider}
+    </select>
 </mapper>

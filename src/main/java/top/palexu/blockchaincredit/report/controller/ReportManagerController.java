@@ -82,8 +82,8 @@ public class ReportManagerController {
     }
 
     @PostMapping("/template/update")
-    public boolean updateTemplate(@RequestBody TemplateDo templateDo) {
-        return templateDoMapper.updateByPrimaryKeySelective(templateDo) > 0;
+    public boolean updateTemplate(@RequestBody TemplateDo templateDo, @RequestParam String pname) {
+        return manageService.updateTemplate(templateDo, pname);
     }
 
     public List<FactorDo> selectAllFactor() {

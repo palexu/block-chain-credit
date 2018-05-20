@@ -35,13 +35,14 @@ CREATE TABLE biztype (
 
 CREATE TABLE provider_biztype_relation (
   id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-  pname       VARCHAR(64)        DEFAULT NULL,
-  bname       VARCHAR(64)        DEFAULT NULL,
+  pname       VARCHAR(64),
+  bname       VARCHAR(64),
   template_id BIGINT             DEFAULT NULL,
   price       BIGINT             DEFAULT NULL,
   count       BIGINT             DEFAULT NULL,
   gmt_created DATETIME           DEFAULT now(),
-  gmt_updated DATETIME           DEFAULT now() ON UPDATE now()
+  gmt_updated DATETIME           DEFAULT now() ON UPDATE now(),
+  CONSTRAINT pb_key UNIQUE INDEX (pname, bname)
 );
 
 CREATE TABLE provider (

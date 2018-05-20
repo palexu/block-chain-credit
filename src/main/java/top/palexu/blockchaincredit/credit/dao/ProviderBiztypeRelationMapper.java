@@ -23,4 +23,9 @@ public interface ProviderBiztypeRelationMapper {
     List<ProviderBiztypeRelation> selectByProviderName(String pname);
 
     int deleteByTemplateIdAndProviderName(@Param("templateId") Long templateId, @Param("pname") String pame);
+
+    int updateByTemplateIdSelective(ProviderBiztypeRelation record);
+
+    ProviderBiztypeRelation selectByBizTypeProvider(@Param("bizType") String bizType,
+                                                    @Param("provider") String provider);
 }

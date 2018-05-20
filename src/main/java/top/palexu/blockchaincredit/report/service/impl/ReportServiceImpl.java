@@ -39,7 +39,8 @@ public class ReportServiceImpl implements ReportService {
         //1.设置计算所需的工具
         context.setCalculateHelper(new CalculateHelper());
 
-        Long templateId = factorService.findTemplateIdByBiztype(context.getBizType().getValue());
+        Long templateId = factorService.findTemplateIdByBiztypeProvider(context.getBizType().getValue(),
+                                                                        context.getProvider());
         if (templateId == null) {
             log.error("biztype={} 所关联的模板为空", context.getBizType());
             return null;
@@ -62,7 +63,8 @@ public class ReportServiceImpl implements ReportService {
         //1.设置计算所需的工具
         context.setCalculateHelper(new CalculateHelper());
 
-        Long templateId = factorService.findTemplateIdByBiztype(context.getBizType().getValue());
+        Long templateId = factorService.findTemplateIdByBiztypeProvider(context.getBizType().getValue(),
+                                                                        context.getProvider());
         if (templateId == null) {
             log.error("biztype={} 所关联的模板为空", context.getBizType());
             return null;
