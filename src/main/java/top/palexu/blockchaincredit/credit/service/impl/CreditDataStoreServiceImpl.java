@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.palexu.blockchaincredit.credit.dao.CreditMongo;
 import top.palexu.blockchaincredit.credit.model.CreditData;
+import top.palexu.blockchaincredit.credit.model.CreditDataContent;
 import top.palexu.blockchaincredit.credit.model.CreditDataRecord;
+import top.palexu.blockchaincredit.credit.model.CreditDataRow;
 import top.palexu.blockchaincredit.credit.service.CreditDataStoreService;
 import top.palexu.blockchaincredit.credit.util.PrintUtil;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * todo 在这一层做缓存，
@@ -21,21 +24,38 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
     @Autowired
     CreditMongo creditMongo;
 
+    /**
+     * 增量添加用户数据
+     *
+     * @param creditData
+     * @return
+     */
     @Override
     public boolean insertCreditDataContent(CreditData creditData) {
         //只接受最新的那一条
         assert creditData.getDatas().size() == 1;
 
-        //1.计算指纹
+        //1.取出老数据并融合
+        CreditData old = creditMongo.selectOne(creditData.getProvider(), creditData.getSubject(),
+                                               creditData.getBizType());
+        if (null != old && old.getLatestContent() != null) {
+            CreditDataContent content = old.getLatestContent();
+            Map<String, List<CreditDataRow>> newRows = creditData.getLatestContent().getData();
+            for (String k : newRows.keySet()) {
+                newRows.get(k).addAll(content.getData().get(k));
+            }
+        }
+
+        //2.计算指纹
         String print = PrintUtil.getDataPrint(creditData.getProvider(), creditData.getSubject(),
                                               creditData.getBizType(),
                                               creditData.getLatestContent().getData().toString());
         creditData.getLatestContent().setPrint(print);
 
-        //todo 2.保存记录落区块链  需判断出是插入删除之类的属性
+        //todo 3.保存记录落区块链  需判断出是插入删除之类的属性
         boolean saveToBlockSuccess = true;
 
-        //落数据库
+        //4.落库
         if (saveToBlockSuccess) {
             return creditMongo.upsertCreditContent(creditData);
         } else {
@@ -70,7 +90,7 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
 
     @Override
     public List<CreditDataRecord> selectAllRecordBySubjectBizType(String subject, String bizType) {
-        return creditMongo.selectRecordBySubjectBizType(subject,bizType);
+        return creditMongo.selectRecordBySubjectBizType(subject, bizType);
     }
 
     @Override

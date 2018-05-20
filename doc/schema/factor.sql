@@ -21,7 +21,8 @@ CREATE TABLE factor_template_relation (
   template_id BIGINT,
   factor_id   BIGINT,
   gmt_created DATETIME           DEFAULT now(),
-  gmt_updated DATETIME           DEFAULT now() ON UPDATE now()
+  gmt_updated DATETIME           DEFAULT now() ON UPDATE now(),
+  CONSTRAINT tf_key UNIQUE INDEX (template_id, factor_id)
 );
 
 CREATE TABLE biztype (

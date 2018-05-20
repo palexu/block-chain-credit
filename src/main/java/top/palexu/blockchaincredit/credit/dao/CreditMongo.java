@@ -125,7 +125,7 @@ public class CreditMongo implements InitializingBean {
 
             old.addContent(data.getLatestContent());
 
-            this.update(data.getProvider(), data.getSubject(), data.getBizType(), data.getNaturePerson(),
+            return this.update(data.getProvider(), data.getSubject(), data.getBizType(), data.getNaturePerson(),
                         old.getDatas());
         }
         return true;
@@ -228,13 +228,13 @@ public class CreditMongo implements InitializingBean {
         oldDocument.put("provider", provider);
         oldDocument.put("subject", subject);
         oldDocument.put("bizType", bizType);
-        oldDocument.put("naturePerson", JSON.toJSONString(naturePerson));
 
         Document newDocument = new Document();
         newDocument.putAll(oldDocument);
+        newDocument.put("naturePerson", JSON.toJSONString(naturePerson));
         newDocument.put("datas", JSON.toJSONString(datas));
 
-        return null != mongoDatabase.getCollection(COLLECTION_NAME).replaceOne(oldDocument, newDocument);
+        return mongoDatabase.getCollection(COLLECTION_NAME).replaceOne(oldDocument, newDocument).getModifiedCount()>0;
     }
 
 
