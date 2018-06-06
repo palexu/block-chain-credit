@@ -18,7 +18,7 @@ public class CreditCardDataPre implements IDataPre {
     CreditDataStoreService dataStoreService;
 
     @Override
-    public void handle(ReportContext context) {
+    public void handle(ReportContext context) throws Exception {
 
         CreditData data = dataStoreService.selectCreditData(context.getProvider(), context.getSubject(),
                                                             context.getBizType().getValue());

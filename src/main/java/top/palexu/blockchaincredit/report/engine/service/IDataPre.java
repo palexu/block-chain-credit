@@ -6,5 +6,5 @@ import top.palexu.blockchaincredit.report.ReportContext;
  * @author xjy
  */
 public interface IDataPre {
-    void handle(ReportContext context);
+    void handle(ReportContext context) throws Exception;
 }

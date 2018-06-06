@@ -1,7 +1,7 @@
 package top.palexu.blockchaincredit.user.service;
 
 
-import top.palexu.blockchaincredit.user.common.ServerResponse;
+import top.palexu.blockchaincredit.common.ServerResponse;
 import top.palexu.blockchaincredit.user.model.User;
 
 /**

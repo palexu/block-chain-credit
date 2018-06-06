@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.palexu.blockchaincredit.common.ServerResponse;
 import top.palexu.blockchaincredit.common.util.MD5Util;
 import top.palexu.blockchaincredit.user.common.*;
 import top.palexu.blockchaincredit.user.dao.UserMapper;

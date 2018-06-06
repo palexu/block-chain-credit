@@ -9,8 +9,7 @@ import top.palexu.blockchaincredit.report.ReportContext;
 import top.palexu.blockchaincredit.report.engine.service.IDataPre;
 
 @Component
-public class
-DataPreHandler extends AbstractHandler {
+public class DataPreHandler extends AbstractHandler {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -22,7 +21,7 @@ DataPreHandler extends AbstractHandler {
     }
 
     @Override
-    public void process(ReportContext context) {
+    public void process(ReportContext context) throws Exception {
 
         dataPre.handle(context);
         logger.info(this.getClass().getName());
