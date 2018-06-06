@@ -2,6 +2,8 @@ package top.palexu.blockchaincredit.credit.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import top.palexu.blockchaincredit.credit.BccService;
+import top.palexu.blockchaincredit.credit.common.CreditPrintNotMatchException;
 import top.palexu.blockchaincredit.credit.dao.CreditMongo;
 import top.palexu.blockchaincredit.credit.model.CreditData;
 import top.palexu.blockchaincredit.credit.model.CreditDataContent;
@@ -23,6 +25,8 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
 
     @Autowired
     CreditMongo creditMongo;
+    @Autowired
+    BccService bccService;
 
     /**
      * 增量添加用户数据
@@ -41,8 +45,12 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
         if (null != old && old.getLatestContent() != null) {
             CreditDataContent content = old.getLatestContent();
             Map<String, List<CreditDataRow>> newRows = creditData.getLatestContent().getData();
-            for (String k : newRows.keySet()) {
-                newRows.get(k).addAll(content.getData().get(k));
+            for (String k : content.getData().keySet()) {
+                if (newRows.containsKey(k)) {
+                    newRows.get(k).addAll(content.getData().get(k));
+                } else {
+                    newRows.put(k, content.getData().get(k));
+                }
             }
         }
 
@@ -52,8 +60,9 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
                                               creditData.getLatestContent().getData().toString());
         creditData.getLatestContent().setPrint(print);
 
-        //todo 3.保存记录落区块链  需判断出是插入删除之类的属性
-        boolean saveToBlockSuccess = true;
+        //3.保存记录落区块链
+        boolean saveToBlockSuccess = bccService.upsertPrint(creditData.getProvider(),
+                                                            creditData.getNaturePerson().toString(), print);
 
         //4.落库
         if (saveToBlockSuccess) {
@@ -64,13 +73,24 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
     }
 
     @Override
-    public CreditData selectCreditData(CreditData creditData) {
+    public CreditData selectCreditData(CreditData creditData) throws Exception {
         //todo 查询记录落block
-        return creditMongo.selectOne(creditData.getProvider(), creditData.getSubject(), creditData.getBizType());
+        CreditData result = creditMongo.selectOne(creditData.getProvider(), creditData.getSubject(),
+                                                  creditData.getBizType());
+        String print = PrintUtil.getDataPrint(result.getProvider(), result.getSubject(), result.getBizType(),
+                                              result.getLatestContent().getData().toString());
+        String printFromBc = bccService.queryPrint(result.getProvider(), result.getNaturePerson().toString());
+        if (print.equals(printFromBc)) {
+            return result;
+        } else {
+            //todo 返回错误信息
+            throw new CreditPrintNotMatchException("指纹不匹配");
+        }
+
     }
 
     @Override
-    public CreditData selectCreditData(String provider, String subject, String bizType) {
+    public CreditData selectCreditData(String provider, String subject, String bizType) throws Exception {
         CreditData creditData = new CreditData();
         creditData.setProvider(provider);
         creditData.setSubject(subject);
