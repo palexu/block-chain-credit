@@ -1,7 +1,8 @@
-package top.palexu.blockchaincredit.user.common;
+package top.palexu.blockchaincredit.common;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import top.palexu.blockchaincredit.user.common.ResponseCode;
 
 import java.io.Serializable;
 
