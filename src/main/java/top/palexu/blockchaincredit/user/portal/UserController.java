@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import top.palexu.blockchaincredit.user.common.Const;
 import top.palexu.blockchaincredit.user.common.LoginEnum;
 import top.palexu.blockchaincredit.user.common.ResponseCode;
-import top.palexu.blockchaincredit.user.common.ServerResponse;
+import top.palexu.blockchaincredit.common.ServerResponse;
 import top.palexu.blockchaincredit.user.model.User;
 import top.palexu.blockchaincredit.user.service.IUserService;
 
