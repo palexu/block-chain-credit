@@ -50,7 +50,11 @@ public class ReportContext {
     /**
      * 报告结果
      */
-    Object reportResult;
+    Boolean success = true;
+    /**
+     * 报告结果的msg
+     */
+    String errorMsg;
 
     public ReportContext() {
     }

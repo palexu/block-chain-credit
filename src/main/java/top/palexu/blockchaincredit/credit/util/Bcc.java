@@ -1,5 +1,6 @@
 package top.palexu.blockchaincredit.credit.util;
 
+import lombok.Data;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.*;
@@ -144,6 +145,7 @@ public class Bcc extends Contract {
         return new Bcc(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
+    @Data
     public static class PrintEventResponse {
         public Log log;
 

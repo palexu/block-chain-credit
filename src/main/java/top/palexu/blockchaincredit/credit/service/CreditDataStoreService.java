@@ -30,7 +30,7 @@ public interface CreditDataStoreService {
      * @param subject  主体
      * @param bizType  业务场景
      */
-    CreditData selectCreditData(CreditData creditData);
+    CreditData selectCreditData(CreditData creditData) throws Exception;
 
     /**
      * 查询征信数据
@@ -39,7 +39,7 @@ public interface CreditDataStoreService {
      * @param subject  主体
      * @param bizType  业务场景
      */
-    CreditData selectCreditData(String provider, String subject, String bizType);
+    CreditData selectCreditData(String provider, String subject, String bizType) throws Exception;
 
     /**
      * 查询征信数据
