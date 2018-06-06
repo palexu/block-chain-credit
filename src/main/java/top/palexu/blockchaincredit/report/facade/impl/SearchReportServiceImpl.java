@@ -52,11 +52,11 @@ public class SearchReportServiceImpl implements SearchReportService {
                 //todo 改为在reportservice中处理name 和 desc
                 if (BizTypeEnum.creditCard.getValue().equals(bizType)) {
                     factorMap = reportService.singleReport(context);
-                    report.setReportName("信用卡报告");
+                    report.setReportName("银行信用报告");
                     report.setDesc("信用卡报告-DATAHUB");
                 } else if (BizTypeEnum.sharedBike.getValue().equals(bizType)) {
                     factorMap = reportService.singleReport(context);
-                    report.setReportName("共享单车报告");
+                    report.setReportName("共享单车信用报告");
                     report.setDesc("测试");
                 } else {
                     log.error("查询报告,没有找到对应的报告处理器,bizType={}", record.getBizType());
