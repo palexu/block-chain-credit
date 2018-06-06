@@ -18,25 +18,10 @@ contract Bcc {
         minter = msg.sender;
     }
 
-
-    // ==== provider ====
-
-
-    //添加数据提供者 admin
-    function addDataProvider(address dataProviderAddress , string dataProviderName){
-        providerMap[dataProviderAddress] = DataProvider(dataProviderName);
-    }
-
-    //删除数据提供者 admin
-    function deleteDataProvider(address dataProviderAddress){
-        //todo
-    }
-
-
     // ==== print ====
 
     // 直接增加/修改subject对应的指纹
-    // 历史的print应该是记录在了区块链上的
+    // 历史的print记录在了区块链上的
     function updatePrint(address dataProviderAddress , string subject , string print){
         providerMap[dataProviderAddress].printOfData[subject] = print;
     }
