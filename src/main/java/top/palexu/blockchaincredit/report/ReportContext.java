@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import top.palexu.blockchaincredit.credit.common.BizTypeEnum;
 import top.palexu.blockchaincredit.credit.model.CreditDataContent;
 import top.palexu.blockchaincredit.report.engine.script.Factor;
+import top.palexu.blockchaincredit.report.model.FactorDo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,9 +76,11 @@ public class ReportContext {
     public void addFactorResult(String name, Object value) {
         //todo 因子可以由机构自由添加，之后不应判断是否存在因子
         if (calculateHelper.factorDos.containsKey(name)) {
+            FactorDo fd = calculateHelper.factorDos.get(name);
             Factor factor = new Factor();
             factor.setName(name);
             factor.setValue(value);
+            factor.setDesc(fd.getDesc());
             factorMap.put(name, factor);
         } else {
             //不做处理

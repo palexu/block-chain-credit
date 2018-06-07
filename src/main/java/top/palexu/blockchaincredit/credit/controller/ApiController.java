@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.palexu.blockchaincredit.common.ServerResponse;
 import top.palexu.blockchaincredit.credit.model.CreditData;
 import top.palexu.blockchaincredit.credit.service.CreditDataStoreService;
 
@@ -18,11 +19,13 @@ public class ApiController {
     CreditDataStoreService creditDataStoreService;
 
     @PostMapping("/data/save")
-    public boolean receiveData(@RequestBody CreditData creditData) {
+    public ServerResponse receiveData(@RequestBody CreditData creditData) {
 
         //todo 接受数据，保存到数据库和区块链
-        creditDataStoreService.insertCreditDataContent(creditData);
+        if(creditDataStoreService.insertCreditDataContent(creditData)){
+            return ServerResponse.createBySuccess();
+        }
         //todo 1.校验商户是否有推送该bizType数据的权限
-        return true;
+        return ServerResponse.createByError("保存失败");
     }
 }

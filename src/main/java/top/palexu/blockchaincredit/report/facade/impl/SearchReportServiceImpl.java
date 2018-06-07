@@ -39,7 +39,7 @@ public class SearchReportServiceImpl implements SearchReportService {
 
         Map<String, List<CreditDataRecord>> recordMap = sortByBizType(recordList);
 
-        //按照bizType不同，选择不同报告生成器进行计算
+        //按照bizType不同 ，选择不同报告生成器进行计算
         //不同bizType的数据和因子不能做融合
         for (String bizType : recordMap.keySet()) {
             Report report = new Report();
