@@ -18,6 +18,7 @@ public class CreditDataHistoryItem {
      * 指纹
      */
     String print;
+    String trxHash;
     /**
      * 创建时间
      */

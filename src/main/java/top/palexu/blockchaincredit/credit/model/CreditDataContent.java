@@ -16,8 +16,7 @@ public class CreditDataContent {
     /**
      * 其实就是代表了第几次修改,由creditMongo来设置
      */
-    @NotNull
-    Long version;
+    @NotNull Long version;
 
     /**
      * 指纹
@@ -28,6 +27,11 @@ public class CreditDataContent {
      * 数据类型(比bizType更细化一下，暂时留为空)
      */
     String dataType;
+
+    /**
+     * 区块链交易记录地址hash,用于在explorer中查看交易详情
+     */
+    String trxHash;
 
     /**
      * 数据列

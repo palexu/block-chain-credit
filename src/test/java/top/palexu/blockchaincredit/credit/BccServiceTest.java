@@ -9,8 +9,8 @@ public class BccServiceTest {
 
     @Test
     public void queryPrint() throws Exception {
-        log.info(">> result:{}", service.upsertPrint("a", "b", "c"));
-        log.info(">> result:{}", service.queryPrint("a", "b"));
+        //        log.info(">> result:{}", service.upsertPrint("DATAHUB", "331082199604160001", "c"));
+        log.info(">> result:{}", service.queryPrint("DATAHUB", "331082199604160001", "creditCard"));
     }
 
 }

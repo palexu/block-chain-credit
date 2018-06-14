@@ -13,6 +13,9 @@ public class ScriptProcessor {
 
     public Object invokeMethod(Object param) {
         try {
+            if (this.groovyObject == null) {
+                return null;
+            }
             return groovyObject.invokeMethod("execute", param);
         } catch (Exception e) {
             log.info("groovy invoke exception", e);

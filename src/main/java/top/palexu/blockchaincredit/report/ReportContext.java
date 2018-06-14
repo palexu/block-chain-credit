@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.palexu.blockchaincredit.credit.common.BizTypeEnum;
 import top.palexu.blockchaincredit.credit.model.CreditDataContent;
+import top.palexu.blockchaincredit.credit.model.NaturePerson;
 import top.palexu.blockchaincredit.report.engine.script.Factor;
 import top.palexu.blockchaincredit.report.model.FactorDo;
 
@@ -37,6 +38,11 @@ public class ReportContext {
      * 待计算的数据
      */
     CreditDataContent rawData;
+
+    /**
+     * 自然人信息
+     */
+    NaturePerson naturePerson;
 
     /**
      * 计算中需要用到的工具

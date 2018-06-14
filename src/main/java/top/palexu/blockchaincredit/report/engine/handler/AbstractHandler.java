@@ -28,6 +28,7 @@ public abstract class AbstractHandler {
             if (e instanceof CreditPrintNotMatchException) {
                 context.setSuccess(false);
                 context.setErrorMsg(e.getMessage());
+                log.error("报告计算链", e);
                 return;
             }
             log.error("报告计算链", e);

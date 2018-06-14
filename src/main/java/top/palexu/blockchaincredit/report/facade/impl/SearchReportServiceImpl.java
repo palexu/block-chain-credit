@@ -36,6 +36,9 @@ public class SearchReportServiceImpl implements SearchReportService {
 
         //用subject找到所有相关数据
         List<CreditDataRecord> recordList = creditDataStoreService.selectAllRecordBySubject(subject);
+        if (recordList.size() == 0) {
+            return "error:用户征信数据暂未收录";
+        }
 
         Map<String, List<CreditDataRecord>> recordMap = sortByBizType(recordList);
 

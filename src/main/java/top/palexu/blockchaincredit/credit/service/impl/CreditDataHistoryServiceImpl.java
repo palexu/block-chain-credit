@@ -31,6 +31,7 @@ public class CreditDataHistoryServiceImpl implements CreditDataHistoryService {
         for (CreditDataContent curr : creditData.getDatas()) {
             CreditDataHistoryItem item = new CreditDataHistoryItem(provider, subject, bizType, curr.getPrint(),
                                                                    curr.getGmtCreated());
+            item.setTrxHash(curr.getTrxHash());
             histories.getHistories().add(item);
             //比较两者的区别
             this.compareHistory(item, prev, curr);

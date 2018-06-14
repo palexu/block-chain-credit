@@ -20,11 +20,15 @@ public class CreditCardDataPre implements IDataPre {
     @Override
     public void handle(ReportContext context) throws Exception {
 
+
         CreditData data = dataStoreService.selectCreditData(context.getProvider(), context.getSubject(),
                                                             context.getBizType().getValue());
 
         //1.读取征信数据
         context.setRawData(data.getLatestContent());
+
+        //2.设置自然人信息
+        context.setNaturePerson(data.getNaturePerson());
 
     }
 

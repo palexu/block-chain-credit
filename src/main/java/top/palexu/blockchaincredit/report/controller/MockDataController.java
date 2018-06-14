@@ -8,7 +8,7 @@ import top.palexu.blockchaincredit.credit.common.BizTypeEnum;
 import top.palexu.blockchaincredit.credit.util.DataMockUtil;
 
 @RestController
-@RequestMapping(value = "/api/mock")
+@RequestMapping(value = "/api/mockBankData")
 public class MockDataController {
     @Autowired
     DataMockUtil util;

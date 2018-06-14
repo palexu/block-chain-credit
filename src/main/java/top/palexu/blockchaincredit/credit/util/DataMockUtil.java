@@ -162,7 +162,7 @@ public class DataMockUtil {
     /**=====================信用卡mock end ====================================*/
 
 
-    /** =====================单车 mock start ================================== */
+    /** =====================单车 mockBankData start ================================== */
     private static CreditDataRow shardBikeOverDueRecord() {
         Random random = new Random();
 
@@ -174,7 +174,7 @@ public class DataMockUtil {
         return overdueRecord;
     }
 
-    /** =====================单车 mock end ================================== */
+    /** =====================单车 mockBankData end ================================== */
 
     public static void main(String... args) {
         DataMockUtil.mockData(BizTypeEnum.creditCard);

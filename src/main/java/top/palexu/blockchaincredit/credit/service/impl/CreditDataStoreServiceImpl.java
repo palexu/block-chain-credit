@@ -3,6 +3,7 @@ package top.palexu.blockchaincredit.credit.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.palexu.blockchaincredit.credit.BccService;
+import top.palexu.blockchaincredit.credit.common.CreditPrintNotMatchException;
 import top.palexu.blockchaincredit.credit.dao.CreditMongo;
 import top.palexu.blockchaincredit.credit.model.CreditData;
 import top.palexu.blockchaincredit.credit.model.CreditDataContent;
@@ -26,6 +27,8 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
     CreditMongo creditMongo;
     @Autowired
     BccService bccService;
+    @Autowired
+    PrintUtil printUtil;
 
     /**
      * 增量添加用户数据
@@ -54,17 +57,18 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
         }
 
         //2.计算指纹
-        String print = PrintUtil.getDataPrint(creditData.getProvider(), creditData.getSubject(),
-                                              creditData.getBizType(),
-                                              creditData.getLatestContent().getData().toString());
+        String print = printUtil.getDataPrint(creditData.getProvider(), creditData.getSubject(),
+                                              creditData.getBizType(), creditData.getLatestContent().getData());
         creditData.getLatestContent().setPrint(print);
 
         //3.保存记录落区块链
-        boolean saveToBlockSuccess = true;bccService.upsertPrint(creditData.getProvider(),
-                                                            creditData.getNaturePerson().toString(), print);
+        String trx = bccService.upsertPrint(creditData.getProvider(), creditData.getSubject(), creditData.getBizType(),
+                                            print);
+
 
         //4.落库
-        if (saveToBlockSuccess) {
+        if (null != trx) {
+            creditData.getLatestContent().setTrxHash(trx);
             return creditMongo.upsertCreditContent(creditData);
         } else {
             return false;
@@ -76,15 +80,18 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
         //todo 查询记录落block
         CreditData result = creditMongo.selectOne(creditData.getProvider(), creditData.getSubject(),
                                                   creditData.getBizType());
-        String print = PrintUtil.getDataPrint(result.getProvider(), result.getSubject(), result.getBizType(),
-                                              result.getLatestContent().getData().toString());
-        String printFromBc = bccService.queryPrint(result.getProvider(), result.getNaturePerson().toString());
-//        if (print.equals(printFromBc)) {
+        String tx = result.getLatestContent().getTrxHash();
+        result.getLatestContent().setTrxHash(null);
+        String print = printUtil.getDataPrint(result.getProvider(), result.getSubject(), result.getBizType(),
+                                              result.getLatestContent().getData());
+        String printFromBc = bccService.queryPrint(result.getProvider(), result.getSubject(), result.getBizType());
+        if (print.equals(printFromBc)) {
+            result.getLatestContent().setTrxHash(tx);
             return result;
-//        } else {
-//            //todo 返回错误信息
-//            throw new CreditPrintNotMatchException("指纹不匹配");
-//        }
+        } else {
+            //todo 返回错误信息
+            throw new CreditPrintNotMatchException("指纹不匹配");
+        }
 
     }
 

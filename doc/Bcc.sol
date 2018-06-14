@@ -24,6 +24,7 @@ contract Bcc {
     // 历史的print记录在了区块链上的
     function updatePrint(address dataProviderAddress , string subject , string print){
         providerMap[dataProviderAddress].printOfData[subject] = print;
+        Print(msg.sender,subject,print);
     }
 
     //查询

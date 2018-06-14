@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
 import groovy.lang.Script;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.palexu.blockchaincredit.common.util.MD5Util;
@@ -20,14 +21,19 @@ public class GroovyScriptLoader {
     private static HashMap<String, GroovyObject> groovyObjectMap = new HashMap<>();
 
     private static GroovyObject parseScript(String script) {
-        String md5 = MD5Util.MD5EncodeUtf8(script);
-        GroovyObject groovyObject = groovyObjectMap.get(md5);
 
-        if (groovyObject != null) {
-            return groovyObject;
-        }
 
         try {
+            if (StringUtils.isEmpty(script)) {
+                return null;
+            }
+            String md5 = MD5Util.MD5EncodeUtf8(script);
+            GroovyObject groovyObject = groovyObjectMap.get(md5);
+
+            if (groovyObject != null) {
+                return groovyObject;
+            }
+
             Class<Script> clazz = new GroovyClassLoader().parseClass(script);
             groovyObject = clazz.newInstance();
 
