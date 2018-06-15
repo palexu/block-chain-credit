@@ -64,6 +64,7 @@ public class CreditDataHistoryServiceImpl implements CreditDataHistoryService {
         for (String key : currData.keySet()) {
             if (!prevData.containsKey(key)) {
                 item.addOpPair("增加", "大类" + key);
+                item.addOpPair("增加", "在" + key + "下增加" + currData.get(key).size() + "条记录");
                 continue;
             }
 
@@ -71,7 +72,9 @@ public class CreditDataHistoryServiceImpl implements CreditDataHistoryService {
             List<CreditDataRow> prevRows = prevData.get(key);
             List<CreditDataRow> currRows = currData.get(key);
 
-            item.addOpPair("增加", "在" + key + "下增加" + (currRows.size() - prevRows.size()) + "条记录");
+            if ((currRows.size() - prevRows.size()) > 0) {
+                item.addOpPair("增加", "在" + key + "下增加" + (currRows.size() - prevRows.size()) + "条记录");
+            }
         }
     }
 }
