@@ -43,7 +43,11 @@ public class FactorService {
         Map<String, FactorDo> factors = new HashMap<>();
         for (Long id : factorIds) {
             FactorDo factorDo = factorDoMapper.selectByPrimaryKey(id);
-            factors.put(factorDo.getName(), factorDo);
+            if (factorDo != null)
+                factors.put(factorDo.getName(), factorDo);
+            else{
+                System.out.print("123");
+            }
         }
 
         return factors;
