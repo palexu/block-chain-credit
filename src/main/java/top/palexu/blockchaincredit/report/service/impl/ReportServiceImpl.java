@@ -26,9 +26,9 @@ public class ReportServiceImpl implements ReportService {
     FactorService factorService;
 
     /**
-     * 信用卡报告
+     * 单报告
      *
-     * @return
+     * @return　
      */
     @Override
     public Map<String, Factor> singleReport(ReportContext context) {

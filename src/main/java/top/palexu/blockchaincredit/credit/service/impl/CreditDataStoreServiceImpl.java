@@ -77,7 +77,6 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
 
     @Override
     public CreditData selectCreditData(CreditData creditData) throws Exception {
-        //todo 查询记录落block
         CreditData result = creditMongo.selectOne(creditData.getProvider(), creditData.getSubject(),
                                                   creditData.getBizType());
         String tx = result.getLatestContent().getTrxHash();
@@ -89,10 +88,8 @@ public class CreditDataStoreServiceImpl implements CreditDataStoreService {
             result.getLatestContent().setTrxHash(tx);
             return result;
         } else {
-            //todo 返回错误信息
             throw new CreditPrintNotMatchException("指纹不匹配");
         }
-
     }
 
     @Override

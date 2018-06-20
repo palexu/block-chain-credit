@@ -14,7 +14,7 @@ import top.palexu.blockchaincredit.credit.util.Bcc;
 @Slf4j
 public class DeployBcc {
     public static void main(String... args) {
-        String privateKey = "cb5a5e78f493d1864369d6feb745d17647a6263cf8b60cb2d8d137e91a88ce15";
+        String privateKey = "cd1c0307ca72ef19b8cd5870b74064922d4905bcfb9048ce4d05ae2938ac7a07";
 
         Web3j web3j = Web3j.build(new HttpService("http://127.0.0.1:8545"));
 
